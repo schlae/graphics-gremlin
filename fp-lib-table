@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name ISAVideo)(type KiCad)(uri ${KIPRJMOD}/ISAVideo.pretty)(options "")(descr ""))
+)

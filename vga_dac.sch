@@ -1,0 +1,888 @@
+EESchema Schematic File Version 4
+LIBS:isavideo-cache
+EELAYER 29 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 3 5
+Title "Resistor Ladder DAC and Output Buffer"
+Date ""
+Rev "2"
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Device:Opamp_Quad_Generic U?
+U 1 1 601BB744
+P 4950 6950
+AR Path="/601BB744" Ref="U?"  Part="1" 
+AR Path="/601AC602/601BB744" Ref="U6"  Part="1" 
+F 0 "U6" H 4950 7317 50  0000 C CNN
+F 1 "ADA4891-3" H 4950 7226 50  0000 C CNN
+F 2 "Active:SOP127P620X175-14" H 4950 6950 50  0001 C CNN
+F 3 "~" H 4950 6950 50  0001 C CNN
+F 4 "584-ADA4891-3ARZ" H -250 0   50  0001 C CNN "Mouser"
+	1    4950 6950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:Opamp_Quad_Generic U?
+U 2 1 601BB74A
+P 6900 3950
+AR Path="/601BB74A" Ref="U?"  Part="2" 
+AR Path="/601AC602/601BB74A" Ref="U6"  Part="2" 
+F 0 "U6" H 6900 3583 50  0000 C CNN
+F 1 "ADA4891-3" H 6900 3674 50  0000 C CNN
+F 2 "Active:SOP127P620X175-14" H 6900 3950 50  0001 C CNN
+F 3 "~" H 6900 3950 50  0001 C CNN
+F 4 "584-ADA4891-3ARZ" H 0   0   50  0001 C CNN "Mouser"
+	2    6900 3950
+	1    0    0    1   
+$EndComp
+$Comp
+L Device:Opamp_Quad_Generic U?
+U 3 1 601BB750
+P 6900 2500
+AR Path="/601BB750" Ref="U?"  Part="3" 
+AR Path="/601AC602/601BB750" Ref="U6"  Part="3" 
+F 0 "U6" H 6900 2133 50  0000 C CNN
+F 1 "ADA4891-3" H 6900 2224 50  0000 C CNN
+F 2 "Active:SOP127P620X175-14" H 6900 2500 50  0001 C CNN
+F 3 "~" H 6900 2500 50  0001 C CNN
+F 4 "584-ADA4891-3ARZ" H 0   0   50  0001 C CNN "Mouser"
+	3    6900 2500
+	1    0    0    1   
+$EndComp
+$Comp
+L Device:Opamp_Quad_Generic U?
+U 4 1 601BB756
+P 6900 1550
+AR Path="/601BB756" Ref="U?"  Part="4" 
+AR Path="/601AC602/601BB756" Ref="U6"  Part="4" 
+F 0 "U6" H 6900 1183 50  0000 C CNN
+F 1 "ADA4891-3" H 6900 1274 50  0000 C CNN
+F 2 "Active:SOP127P620X175-14" H 6900 1550 50  0001 C CNN
+F 3 "~" H 6900 1550 50  0001 C CNN
+F 4 "584-ADA4891-3ARZ" H 0   0   50  0001 C CNN "Mouser"
+	4    6900 1550
+	1    0    0    1   
+$EndComp
+$Comp
+L Device:Opamp_Quad_Generic U?
+U 5 1 601BB75C
+P 6000 6900
+AR Path="/601BB75C" Ref="U?"  Part="5" 
+AR Path="/601AC602/601BB75C" Ref="U6"  Part="5" 
+F 0 "U6" H 5958 6946 50  0000 L CNN
+F 1 "ADA4891-3" H 5958 6855 50  0000 L CNN
+F 2 "Active:SOP127P620X175-14" H 6000 6900 50  0001 C CNN
+F 3 "~" H 6000 6900 50  0001 C CNN
+F 4 "584-ADA4891-3ARZ" H 0   0   50  0001 C CNN "Mouser"
+	5    6000 6900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4650 6850 4550 6850
+Wire Wire Line
+	4550 6850 4550 7050
+Wire Wire Line
+	4650 7050 4550 7050
+$Comp
+L Device:R_Pack04 RN?
+U 1 1 601BB76E
+P 4950 1850
+AR Path="/601BB76E" Ref="RN?"  Part="1" 
+AR Path="/601AC602/601BB76E" Ref="RN1"  Part="1" 
+F 0 "RN1" V 4533 1850 50  0000 C CNN
+F 1 "604" V 4624 1850 50  0000 C CNN
+F 2 "Passive:RESCAV80P320X160X70-8" V 5225 1850 50  0001 C CNN
+F 3 "~" H 4950 1850 50  0001 C CNN
+F 4 "652-CAY16-6040F4LF" H 0   0   50  0001 C CNN "Mouser"
+	1    4950 1850
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR041
+U 1 1 601BC1CC
+P 5900 7300
+F 0 "#PWR041" H 5900 7050 50  0001 C CNN
+F 1 "GND" H 5905 7127 50  0000 C CNN
+F 2 "" H 5900 7300 50  0001 C CNN
+F 3 "" H 5900 7300 50  0001 C CNN
+	1    5900 7300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR040
+U 1 1 601BCB37
+P 5900 6450
+F 0 "#PWR040" H 5900 6300 50  0001 C CNN
+F 1 "+5V" H 5915 6623 50  0000 C CNN
+F 2 "" H 5900 6450 50  0001 C CNN
+F 3 "" H 5900 6450 50  0001 C CNN
+	1    5900 6450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5900 6450 5900 6600
+Wire Wire Line
+	5900 7200 5900 7300
+$Comp
+L Device:R_Pack04 RN?
+U 1 1 601C00C0
+P 4950 2550
+AR Path="/601C00C0" Ref="RN?"  Part="1" 
+AR Path="/601AC602/601C00C0" Ref="RN2"  Part="1" 
+F 0 "RN2" V 4533 2550 50  0000 C CNN
+F 1 "604" V 4624 2550 50  0000 C CNN
+F 2 "Passive:RESCAV80P320X160X70-8" V 5225 2550 50  0001 C CNN
+F 3 "~" H 4950 2550 50  0001 C CNN
+F 4 "652-CAY16-6040F4LF" H 0   0   50  0001 C CNN "Mouser"
+	1    4950 2550
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4750 1650 4050 1650
+Wire Wire Line
+	4050 1750 4750 1750
+Wire Wire Line
+	4750 1850 4050 1850
+Wire Wire Line
+	4050 1950 4750 1950
+Text Label 4100 1650 0    50   ~ 0
+R5
+Text Label 4100 1750 0    50   ~ 0
+R4
+Text Label 4100 1850 0    50   ~ 0
+R3
+Text Label 4100 1950 0    50   ~ 0
+R2
+Text Label 4100 2350 0    50   ~ 0
+R1
+Text Label 4100 2450 0    50   ~ 0
+R0
+Wire Wire Line
+	4750 2350 4050 2350
+Wire Wire Line
+	4050 2450 4750 2450
+$Comp
+L Device:R_Pack04 RN?
+U 1 1 601C3661
+P 5650 2150
+AR Path="/601C3661" Ref="RN?"  Part="1" 
+AR Path="/601AC602/601C3661" Ref="RN7"  Part="1" 
+F 0 "RN7" V 5233 2150 50  0000 C CNN
+F 1 "300" V 5324 2150 50  0000 C CNN
+F 2 "Passive:RESCAV80P320X160X70-8" V 5925 2150 50  0001 C CNN
+F 3 "~" H 5650 2150 50  0001 C CNN
+F 4 "652-CAY16-3000F4LF" V 5650 2150 50  0001 C CNN "Mouser"
+	1    5650 2150
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5150 1650 5450 1650
+Wire Wire Line
+	5450 1650 5450 1950
+Wire Wire Line
+	5150 1750 5400 1750
+Wire Wire Line
+	5350 1850 5150 1850
+Wire Wire Line
+	5350 2150 5450 2150
+Wire Wire Line
+	5300 1950 5150 1950
+$Comp
+L Device:R_Pack04 RN?
+U 1 1 601C8AA6
+P 5650 2900
+AR Path="/601C8AA6" Ref="RN?"  Part="1" 
+AR Path="/601AC602/601C8AA6" Ref="RN8"  Part="1" 
+F 0 "RN8" V 5233 2900 50  0000 C CNN
+F 1 "300" V 5324 2900 50  0000 C CNN
+F 2 "Passive:RESCAV80P320X160X70-8" V 5925 2900 50  0001 C CNN
+F 3 "~" H 5650 2900 50  0001 C CNN
+F 4 "652-CAY16-3000F4LF" H 0   0   50  0001 C CNN "Mouser"
+	1    5650 2900
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5350 2700 5450 2700
+Wire Wire Line
+	5150 2450 5200 2450
+Wire Wire Line
+	5950 2700 5850 2700
+Wire Wire Line
+	5150 2550 5200 2550
+Wire Wire Line
+	5200 2550 5200 2450
+Wire Wire Line
+	4750 2550 4600 2550
+$Comp
+L power:GND #PWR038
+U 1 1 601CE77A
+P 4600 5250
+F 0 "#PWR038" H 4600 5000 50  0001 C CNN
+F 1 "GND" H 4605 5077 50  0000 C CNN
+F 2 "" H 4600 5250 50  0001 C CNN
+F 3 "" H 4600 5250 50  0001 C CNN
+	1    4600 5250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5450 1650 6100 1650
+Connection ~ 5450 1650
+$Comp
+L Device:R_Pack04 RN?
+U 1 1 601D1228
+P 4950 3300
+AR Path="/601D1228" Ref="RN?"  Part="1" 
+AR Path="/601AC602/601D1228" Ref="RN3"  Part="1" 
+F 0 "RN3" V 4533 3300 50  0000 C CNN
+F 1 "604" V 4624 3300 50  0000 C CNN
+F 2 "Passive:RESCAV80P320X160X70-8" V 5225 3300 50  0001 C CNN
+F 3 "~" H 4950 3300 50  0001 C CNN
+F 4 "652-CAY16-6040F4LF" H 0   0   50  0001 C CNN "Mouser"
+	1    4950 3300
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4750 3100 4050 3100
+Wire Wire Line
+	4050 3200 4750 3200
+Wire Wire Line
+	4750 3300 4050 3300
+Wire Wire Line
+	4050 3400 4750 3400
+Wire Wire Line
+	5200 2450 5350 2450
+Wire Wire Line
+	5350 2450 5350 2700
+Connection ~ 5200 2450
+Wire Wire Line
+	5950 2350 5950 2700
+Wire Wire Line
+	5150 2350 5450 2350
+Wire Wire Line
+	5300 2250 5450 2250
+Wire Wire Line
+	5300 2250 5300 1950
+Wire Wire Line
+	5850 2150 5450 2250
+Connection ~ 5450 2250
+Wire Wire Line
+	5350 1850 5350 2150
+Wire Wire Line
+	5450 2150 5850 2050
+Connection ~ 5450 2150
+Wire Wire Line
+	5450 2050 5400 2050
+Wire Wire Line
+	5400 2050 5400 1750
+Wire Wire Line
+	5450 2050 5850 1950
+Connection ~ 5450 2050
+Wire Wire Line
+	5850 2250 5450 2350
+Connection ~ 5450 2350
+Wire Wire Line
+	5450 2350 5950 2350
+Wire Wire Line
+	4750 2650 4050 2650
+Text Label 4100 3100 0    50   ~ 0
+G5
+Text Label 4100 3200 0    50   ~ 0
+G4
+Text Label 4100 3300 0    50   ~ 0
+G3
+Text Label 4100 3400 0    50   ~ 0
+G2
+Text Label 4100 3750 0    50   ~ 0
+G1
+Wire Wire Line
+	5150 2650 5250 2650
+Wire Wire Line
+	5250 2650 5250 2600
+Wire Wire Line
+	5250 2600 6100 2600
+Wire Wire Line
+	5250 2650 5250 2800
+Wire Wire Line
+	5250 2800 5450 2800
+Connection ~ 5250 2650
+Wire Wire Line
+	5850 2800 5450 2900
+Wire Wire Line
+	5150 3100 5250 3100
+Wire Wire Line
+	5250 3100 5250 2900
+Wire Wire Line
+	5250 2900 5450 2900
+Connection ~ 5450 2900
+Wire Wire Line
+	5850 2900 5450 3000
+Wire Wire Line
+	5450 3000 5350 3000
+Wire Wire Line
+	5350 3000 5350 3200
+Wire Wire Line
+	5350 3200 5150 3200
+Connection ~ 5450 3000
+Wire Wire Line
+	5850 3000 5450 3100
+Wire Wire Line
+	5450 3100 5450 3300
+Wire Wire Line
+	5150 3300 5450 3300
+Wire Wire Line
+	5850 3300 5450 3400
+Wire Wire Line
+	5150 3400 5450 3400
+$Comp
+L Device:R_Pack04 RN?
+U 1 1 6020312D
+P 4950 3950
+AR Path="/6020312D" Ref="RN?"  Part="1" 
+AR Path="/601AC602/6020312D" Ref="RN4"  Part="1" 
+F 0 "RN4" V 4533 3950 50  0000 C CNN
+F 1 "604" V 4624 3950 50  0000 C CNN
+F 2 "Passive:RESCAV80P320X160X70-8" V 5225 3950 50  0001 C CNN
+F 3 "~" H 4950 3950 50  0001 C CNN
+F 4 "652-CAY16-6040F4LF" H 0   0   50  0001 C CNN "Mouser"
+	1    4950 3950
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4750 3750 4050 3750
+Text Label 4100 3850 0    50   ~ 0
+G0
+Wire Wire Line
+	5150 3750 5200 3750
+Connection ~ 5450 3400
+Connection ~ 5450 3300
+$Comp
+L Device:R_Pack04 RN?
+U 1 1 601D08CC
+P 5650 3500
+AR Path="/601D08CC" Ref="RN?"  Part="1" 
+AR Path="/601AC602/601D08CC" Ref="RN9"  Part="1" 
+F 0 "RN9" V 5233 3500 50  0000 C CNN
+F 1 "300" V 5324 3500 50  0000 C CNN
+F 2 "Passive:RESCAV80P320X160X70-8" V 5925 3500 50  0001 C CNN
+F 3 "~" H 5650 3500 50  0001 C CNN
+F 4 "652-CAY16-3000F4LF" H 0   0   50  0001 C CNN "Mouser"
+	1    5650 3500
+	0    1    1    0   
+$EndComp
+Text Label 4100 4050 0    50   ~ 0
+B5
+Wire Wire Line
+	5150 4050 5400 4050
+Wire Wire Line
+	5400 4050 5400 3600
+Wire Wire Line
+	5400 3600 5450 3600
+Wire Wire Line
+	5850 3600 5450 3750
+Wire Wire Line
+	5450 3750 5450 4200
+Wire Wire Line
+	4750 4050 4050 4050
+$Comp
+L Device:R_Pack04 RN?
+U 1 1 6021F1A3
+P 4950 4600
+AR Path="/6021F1A3" Ref="RN?"  Part="1" 
+AR Path="/601AC602/6021F1A3" Ref="RN5"  Part="1" 
+F 0 "RN5" V 4533 4600 50  0000 C CNN
+F 1 "604" V 4624 4600 50  0000 C CNN
+F 2 "Passive:RESCAV80P320X160X70-8" V 5225 4600 50  0001 C CNN
+F 3 "~" H 4950 4600 50  0001 C CNN
+F 4 "652-CAY16-6040F4LF" H 0   0   50  0001 C CNN "Mouser"
+	1    4950 4600
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4750 4400 4050 4400
+Wire Wire Line
+	4050 4500 4750 4500
+Wire Wire Line
+	4750 4600 4050 4600
+Wire Wire Line
+	4050 4700 4750 4700
+Text Label 4100 4400 0    50   ~ 0
+B4
+Text Label 4100 4500 0    50   ~ 0
+B3
+Text Label 4100 4600 0    50   ~ 0
+B2
+Text Label 4100 4700 0    50   ~ 0
+B1
+Wire Wire Line
+	5850 4200 5450 4300
+Wire Wire Line
+	5450 4200 5150 4200
+Wire Wire Line
+	5150 4200 5150 4400
+Wire Wire Line
+	5150 4500 5200 4500
+Wire Wire Line
+	5200 4500 5200 4300
+Wire Wire Line
+	5200 4300 5450 4300
+Wire Wire Line
+	5850 4300 5450 4400
+Wire Wire Line
+	5450 4400 5250 4400
+Wire Wire Line
+	5250 4400 5250 4600
+Wire Wire Line
+	5250 4600 5150 4600
+Connection ~ 5450 4400
+Connection ~ 5450 4300
+Connection ~ 5450 4200
+$Comp
+L Device:R_Pack04 RN?
+U 1 1 6020DACD
+P 5650 4400
+AR Path="/6020DACD" Ref="RN?"  Part="1" 
+AR Path="/601AC602/6020DACD" Ref="RN10"  Part="1" 
+F 0 "RN10" V 5233 4400 50  0000 C CNN
+F 1 "300" V 5324 4400 50  0000 C CNN
+F 2 "Passive:RESCAV80P320X160X70-8" V 5925 4400 50  0001 C CNN
+F 3 "~" H 5650 4400 50  0001 C CNN
+F 4 "652-CAY16-3000F4LF" H 0   0   50  0001 C CNN "Mouser"
+	1    5650 4400
+	0    1    1    0   
+$EndComp
+Connection ~ 4600 5150
+Wire Wire Line
+	4600 5150 4600 5250
+$Comp
+L Device:R_Pack04 RN?
+U 1 1 6024B38E
+P 4950 5250
+AR Path="/6024B38E" Ref="RN?"  Part="1" 
+AR Path="/601AC602/6024B38E" Ref="RN6"  Part="1" 
+F 0 "RN6" V 4533 5250 50  0000 C CNN
+F 1 "604" V 4624 5250 50  0000 C CNN
+F 2 "Passive:RESCAV80P320X160X70-8" V 5225 5250 50  0001 C CNN
+F 3 "~" H 4950 5250 50  0001 C CNN
+F 4 "652-CAY16-6040F4LF" H 0   0   50  0001 C CNN "Mouser"
+	1    4950 5250
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4750 5150 4600 5150
+Wire Wire Line
+	4750 5050 4050 5050
+Wire Wire Line
+	5850 4400 5450 4500
+Wire Wire Line
+	5450 4500 5300 4500
+Wire Wire Line
+	5300 4500 5300 4700
+Wire Wire Line
+	5300 4700 5150 4700
+Connection ~ 5450 4500
+Wire Wire Line
+	5850 4500 5850 5050
+Wire Wire Line
+	5850 5050 5200 5050
+Wire Wire Line
+	5200 5050 5200 5150
+Wire Wire Line
+	5200 5150 5150 5150
+Connection ~ 5200 5050
+Wire Wire Line
+	5200 5050 5150 5050
+Text Label 4100 5050 0    50   ~ 0
+B0
+Wire Wire Line
+	5400 4050 6100 4050
+Connection ~ 5400 4050
+Wire Wire Line
+	4600 2550 4600 3950
+Wire Wire Line
+	5850 3400 5450 3500
+Wire Wire Line
+	5450 3500 5200 3500
+Wire Wire Line
+	5200 3500 5200 3750
+Connection ~ 5450 3500
+Wire Wire Line
+	5150 3850 5200 3850
+Wire Wire Line
+	5900 3850 5900 3500
+Wire Wire Line
+	5900 3500 5850 3500
+Wire Wire Line
+	5200 3850 5200 3950
+Wire Wire Line
+	5200 3950 5150 3950
+Connection ~ 5200 3850
+Wire Wire Line
+	5200 3850 5900 3850
+Wire Wire Line
+	4750 3950 4600 3950
+Connection ~ 4600 3950
+Wire Wire Line
+	4600 3950 4600 5150
+Wire Wire Line
+	4750 3850 4050 3850
+Text Label 4100 2650 0    50   ~ 0
+G6
+Wire Wire Line
+	6600 1450 6450 1450
+Wire Wire Line
+	6450 1450 6450 1050
+Wire Wire Line
+	6450 1050 7400 1050
+Wire Wire Line
+	7400 1050 7400 1550
+Wire Wire Line
+	7400 1550 7200 1550
+Wire Wire Line
+	6600 2400 6450 2400
+Wire Wire Line
+	6450 2400 6450 2000
+Wire Wire Line
+	6450 2000 7400 2000
+Wire Wire Line
+	7400 2000 7400 2500
+Wire Wire Line
+	7400 2500 7200 2500
+Wire Wire Line
+	6600 3850 6450 3850
+Wire Wire Line
+	6450 3850 6450 3400
+Wire Wire Line
+	6450 3400 7400 3400
+Wire Wire Line
+	7400 3400 7400 3950
+Wire Wire Line
+	7400 3950 7200 3950
+$Comp
+L Device:R_Small_US R16
+U 1 1 602869F1
+P 7700 1550
+F 0 "R16" V 7495 1550 50  0000 C CNN
+F 1 "75" V 7586 1550 50  0000 C CNN
+F 2 "Passive:RESC1608X55" H 7700 1550 50  0001 C CNN
+F 3 "~" H 7700 1550 50  0001 C CNN
+F 4 "603-RC0603FR-0775RL" H 0   0   50  0001 C CNN "Mouser"
+	1    7700 1550
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_Small_US R17
+U 1 1 602872BB
+P 7700 2500
+F 0 "R17" V 7495 2500 50  0000 C CNN
+F 1 "75" V 7586 2500 50  0000 C CNN
+F 2 "Passive:RESC1608X55" H 7700 2500 50  0001 C CNN
+F 3 "~" H 7700 2500 50  0001 C CNN
+F 4 "603-RC0603FR-0775RL" H 0   0   50  0001 C CNN "Mouser"
+	1    7700 2500
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_Small_US R19
+U 1 1 602876AF
+P 7700 3950
+F 0 "R19" V 7495 3950 50  0000 C CNN
+F 1 "75" V 7586 3950 50  0000 C CNN
+F 2 "Passive:RESC1608X55" H 7700 3950 50  0001 C CNN
+F 3 "~" H 7700 3950 50  0001 C CNN
+F 4 "603-RC0603FR-0775RL" H 0   0   50  0001 C CNN "Mouser"
+	1    7700 3950
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7600 1550 7400 1550
+Connection ~ 7400 1550
+Wire Wire Line
+	7600 2500 7500 2500
+Connection ~ 7400 2500
+Wire Wire Line
+	7600 3950 7400 3950
+Connection ~ 7400 3950
+Text HLabel 7950 1550 2    50   Output ~ 0
+ARED
+Text HLabel 7950 2500 2    50   Output ~ 0
+AGREEN
+Text HLabel 7950 3950 2    50   Output ~ 0
+ABLUE
+Wire Wire Line
+	7950 1550 7800 1550
+Wire Wire Line
+	7800 2500 7950 2500
+Wire Wire Line
+	7950 3950 7800 3950
+Entry Wire Line
+	3950 4950 4050 5050
+Entry Wire Line
+	3950 1550 4050 1650
+Entry Wire Line
+	3950 1650 4050 1750
+Entry Wire Line
+	3950 1750 4050 1850
+Entry Wire Line
+	3950 1850 4050 1950
+Entry Wire Line
+	3950 2250 4050 2350
+Entry Wire Line
+	3950 2350 4050 2450
+Entry Wire Line
+	3950 2550 4050 2650
+Entry Wire Line
+	3950 3000 4050 3100
+Entry Wire Line
+	3950 3100 4050 3200
+Entry Wire Line
+	3950 3200 4050 3300
+Entry Wire Line
+	3950 3300 4050 3400
+Entry Wire Line
+	3950 3650 4050 3750
+Entry Wire Line
+	3950 3750 4050 3850
+Entry Wire Line
+	3950 3950 4050 4050
+Entry Wire Line
+	3950 4300 4050 4400
+Entry Wire Line
+	3950 4400 4050 4500
+Entry Wire Line
+	3950 4500 4050 4600
+Entry Wire Line
+	3950 4600 4050 4700
+Wire Bus Line
+	3950 1550 3450 1550
+Text HLabel 3450 1550 0    50   Input ~ 0
+R[0..5]
+Wire Bus Line
+	3950 2550 3450 2550
+Text HLabel 3450 2550 0    50   Input ~ 0
+G[0..6]
+Wire Bus Line
+	3950 3950 3450 3950
+Text HLabel 3450 3950 0    50   Input ~ 0
+B[0..5]
+$Comp
+L Device:R_Small_US R18
+U 1 1 60330BC5
+P 7700 2900
+F 0 "R18" V 7495 2900 50  0000 C CNN
+F 1 "75" V 7586 2900 50  0000 C CNN
+F 2 "Passive:RESC1608X55" H 7700 2900 50  0001 C CNN
+F 3 "~" H 7700 2900 50  0001 C CNN
+F 4 "603-RC0603FR-0775RL" H 0   0   50  0001 C CNN "Mouser"
+	1    7700 2900
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7500 2500 7500 2900
+Wire Wire Line
+	7500 2900 7600 2900
+Connection ~ 7500 2500
+Wire Wire Line
+	7500 2500 7400 2500
+Wire Wire Line
+	7800 2900 7950 2900
+Text HLabel 7950 2900 2    50   Output ~ 0
+COMPOSITE
+$Comp
+L Device:C_Small C?
+U 1 1 614F2BD9
+P 7100 5100
+AR Path="/614F2BD9" Ref="C?"  Part="1" 
+AR Path="/6043556F/614F2BD9" Ref="C?"  Part="1" 
+AR Path="/601AC602/614F2BD9" Ref="C27"  Part="1" 
+F 0 "C27" H 7192 5146 50  0000 L CNN
+F 1 "1u" H 7192 5055 50  0000 L CNN
+F 2 "Passive:CAPC1608X100" H 7100 5100 50  0001 C CNN
+F 3 "~" H 7100 5100 50  0001 C CNN
+F 4 "187-CL10A475KP8NNNC" H 0   0   50  0001 C CNN "Mouser"
+	1    7100 5100
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 614F2BEF
+P 7100 5350
+AR Path="/614F2BEF" Ref="#PWR?"  Part="1" 
+AR Path="/603A03FF/614F2BEF" Ref="#PWR?"  Part="1" 
+AR Path="/601AC602/614F2BEF" Ref="#PWR073"  Part="1" 
+F 0 "#PWR073" H 7100 5100 50  0001 C CNN
+F 1 "GND" H 7105 5177 50  0000 C CNN
+F 2 "" H 7100 5350 50  0001 C CNN
+F 3 "" H 7100 5350 50  0001 C CNN
+	1    7100 5350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7100 4850 7100 5000
+Wire Wire Line
+	7100 5200 7100 5350
+$Comp
+L power:+5V #PWR072
+U 1 1 614F72DE
+P 7100 4850
+F 0 "#PWR072" H 7100 4700 50  0001 C CNN
+F 1 "+5V" H 7115 5023 50  0000 C CNN
+F 2 "" H 7100 4850 50  0001 C CNN
+F 3 "" H 7100 4850 50  0001 C CNN
+	1    7100 4850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_Small_US R28
+U 1 1 60F83160
+P 6100 1850
+F 0 "R28" H 5950 1800 50  0000 C CNN
+F 1 "237" H 5950 1900 50  0000 C CNN
+F 2 "Passive:RESC1608X55" H 6100 1850 50  0001 C CNN
+F 3 "~" H 6100 1850 50  0001 C CNN
+F 4 "603-RC0603FR-07237RL" H -1600 -1050 50  0001 C CNN "Mouser"
+	1    6100 1850
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR080
+U 1 1 60F8585B
+P 6100 2050
+F 0 "#PWR080" H 6100 1800 50  0001 C CNN
+F 1 "GND" H 6105 1877 50  0000 C CNN
+F 2 "" H 6100 2050 50  0001 C CNN
+F 3 "" H 6100 2050 50  0001 C CNN
+	1    6100 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6100 2050 6100 1950
+Wire Wire Line
+	6100 1750 6100 1650
+Connection ~ 6100 1650
+Wire Wire Line
+	6100 1650 6600 1650
+$Comp
+L Device:R_Small_US R29
+U 1 1 60F8EFDE
+P 6100 2800
+F 0 "R29" H 5950 2750 50  0000 C CNN
+F 1 "237" H 5950 2850 50  0000 C CNN
+F 2 "Passive:RESC1608X55" H 6100 2800 50  0001 C CNN
+F 3 "~" H 6100 2800 50  0001 C CNN
+F 4 "603-RC0603FR-07237RL" H -1600 -100 50  0001 C CNN "Mouser"
+	1    6100 2800
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR081
+U 1 1 60F8EFE8
+P 6100 3000
+F 0 "#PWR081" H 6100 2750 50  0001 C CNN
+F 1 "GND" H 6105 2827 50  0000 C CNN
+F 2 "" H 6100 3000 50  0001 C CNN
+F 3 "" H 6100 3000 50  0001 C CNN
+	1    6100 3000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6100 3000 6100 2900
+Wire Wire Line
+	6100 2700 6100 2600
+Connection ~ 6100 2600
+Wire Wire Line
+	6100 2600 6600 2600
+$Comp
+L Device:R_Small_US R30
+U 1 1 60F945AB
+P 6100 4250
+F 0 "R30" H 5950 4200 50  0000 C CNN
+F 1 "237" H 5950 4300 50  0000 C CNN
+F 2 "Passive:RESC1608X55" H 6100 4250 50  0001 C CNN
+F 3 "~" H 6100 4250 50  0001 C CNN
+F 4 "603-RC0603FR-07237RL" H -1600 1350 50  0001 C CNN "Mouser"
+	1    6100 4250
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR082
+U 1 1 60F945B5
+P 6100 4450
+F 0 "#PWR082" H 6100 4200 50  0001 C CNN
+F 1 "GND" H 6105 4277 50  0000 C CNN
+F 2 "" H 6100 4450 50  0001 C CNN
+F 3 "" H 6100 4450 50  0001 C CNN
+	1    6100 4450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6100 4450 6100 4350
+Wire Wire Line
+	6100 4150 6100 4050
+Connection ~ 6100 4050
+Wire Wire Line
+	6100 4050 6600 4050
+$Comp
+L power:+5V #PWR039
+U 1 1 61C5E41A
+P 4550 6450
+F 0 "#PWR039" H 4550 6300 50  0001 C CNN
+F 1 "+5V" H 4565 6623 50  0000 C CNN
+F 2 "" H 4550 6450 50  0001 C CNN
+F 3 "" H 4550 6450 50  0001 C CNN
+	1    4550 6450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4550 6850 4550 6450
+Connection ~ 4550 6850
+$Comp
+L Device:R_Small_US R31
+U 1 1 61C826CB
+P 5350 6600
+F 0 "R31" H 5200 6550 50  0000 C CNN
+F 1 "75" H 5200 6650 50  0000 C CNN
+F 2 "Passive:RESC1608X55" H 5350 6600 50  0001 C CNN
+F 3 "~" H 5350 6600 50  0001 C CNN
+F 4 "603-RC0603FR-0775RL" H -2350 2650 50  0001 C CNN "Mouser"
+	1    5350 6600
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5350 6700 5350 6950
+Wire Wire Line
+	5350 6950 5250 6950
+Wire Wire Line
+	5350 6500 5350 6450
+$Comp
+L power:+5V #PWR089
+U 1 1 61C8DDC3
+P 5350 6450
+F 0 "#PWR089" H 5350 6300 50  0001 C CNN
+F 1 "+5V" H 5365 6623 50  0000 C CNN
+F 2 "" H 5350 6450 50  0001 C CNN
+F 3 "" H 5350 6450 50  0001 C CNN
+	1    5350 6450
+	1    0    0    -1  
+$EndComp
+Text Notes 4550 7450 0    50   ~ 0
+ON THE ADA4891-3\nTHESE PINS ARE ALL\n~PD~ (POWER DOWN)
+Text Notes 7100 6800 0    100  ~ 0
+GRAPHICS GREMLIN
+Text Notes 7100 6950 0    50   ~ 0
+DESIGN BY @TubeTimeUS
+Text Notes 550  7700 0    50   ~ 0
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. \nTo view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/ or send\na letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+Wire Bus Line
+	3950 1550 3950 2350
+Wire Bus Line
+	3950 3950 3950 4950
+Wire Bus Line
+	3950 2550 3950 3750
+$EndSCHEMATC
