@@ -1,0 +1,120 @@
+### Graphics Gremlin
+
+### Copyright (c) 2021 Eric Schlaepfer
+### This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
+### International License. To view a copy of this license, visit
+### http://creativecommons.org/license/by-sa/4.0/ or send a letter to Creative
+### Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
+### Clocks
+set_io clk_14m318   129
+set_io clk_10m      49
+set_io clk_bus      128
+
+### Bus reset
+set_io busreset     52
+
+### ISA bus
+set_io bus_a[0]     1
+set_io bus_a[1]     2
+set_io bus_a[2]     3
+set_io bus_a[3]     4
+set_io bus_a[4]     7
+set_io bus_a[5]     8
+set_io bus_a[6]     9
+set_io bus_a[7]     10
+set_io bus_a[8]     11
+set_io bus_a[9]     12
+set_io bus_a[10]    15
+set_io bus_a[11]    16
+set_io bus_a[12]    17
+set_io bus_a[13]    18
+set_io bus_a[14]    19
+set_io bus_a[15]    20
+set_io bus_a[16]    21
+set_io bus_a[17]    22
+set_io bus_a[18]    23
+set_io bus_a[19]    24
+set_io bus_ior_l    25
+set_io bus_iow_l    26
+set_io bus_memr_l   28
+set_io bus_memw_l   29
+set_io bus_d[0]     31
+set_io bus_d[1]     32
+set_io bus_d[2]     33
+set_io bus_d[3]     34
+set_io bus_d[4]     37
+set_io bus_d[5]     38
+set_io bus_d[6]     39
+set_io bus_d[7]     41
+set_io bus_dir      42
+set_io bus_rdy      43
+set_io bus_0ws_l    44
+set_io bus_aen      45
+set_io bus_ale      47
+
+### RAM
+set_io ram_we_l     130
+set_io ram_a[0]     105
+set_io ram_a[1]     106
+set_io ram_a[2]     110
+set_io ram_a[3]     113
+set_io ram_a[4]     115
+set_io ram_a[5]     135
+set_io ram_a[6]     137
+set_io ram_a[7]     139
+set_io ram_a[8]     142
+set_io ram_a[9]     144
+set_io ram_a[10]    143
+set_io ram_a[11]    141
+set_io ram_a[12]    138
+set_io ram_a[13]    136
+set_io ram_a[14]    134
+set_io ram_a[15]    116
+set_io ram_a[16]    114
+set_io ram_a[17]    112
+set_io ram_a[18]    107
+set_io ram_d[0]     117
+set_io ram_d[1]     119
+set_io ram_d[2]     121
+set_io ram_d[3]     124
+set_io ram_d[4]     125
+set_io ram_d[5]     122
+set_io ram_d[6]     120
+set_io ram_d[7]     118
+
+### Video outputs
+set_io hsync        60
+set_io vsync        55
+set_io d_r          61
+set_io d_g          56
+set_io d_b          48
+set_io d_r2         73
+set_io d_g2         74
+set_io d_b2         62
+set_io vid_en_l     75
+set_io vga_hsync    102
+set_io vga_vsync    104
+set_io red[0]       93
+set_io red[1]       94
+set_io red[2]       95
+set_io red[3]       96
+set_io red[4]       97
+set_io red[5]       98
+set_io green[0]     83
+set_io green[1]     84
+set_io green[2]     85
+set_io green[3]     87
+set_io green[4]     88
+set_io green[5]     90
+set_io green[6]     91
+set_io blue[0]      76
+set_io blue[1]      78
+set_io blue[2]      79
+set_io blue[3]      80
+set_io blue[4]      81
+set_io blue[5]      82
+
+# Config switch inputs
+set_io switch2    101
+set_io switch3    99
