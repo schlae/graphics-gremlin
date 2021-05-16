@@ -18,7 +18,7 @@ Here are the design files. The BOM includes Mouser Electronics parts numbers for
 
 ## Fabrication and Assembly Notes
 
-The circuit board is a 2-layer board, 4.19 x 4.2 inches (106 x 95mm). No special edge connector bevel is required, but you may want to specify at least ENIG plating. If you are rich then you could spend the extra money and get hard gold plated edge fingers. Order the boards with a fancy soldermask color so you can show off, or stick with a plain green to blend in.
+The circuit board is a 2-layer board, 4.19 x 3.74 inches (106 x 95mm). No special edge connector bevel is required, but you may want to specify at least ENIG plating. If you are rich then you could spend the extra money and get hard gold plated edge fingers. Order the boards with a fancy soldermask color so you can show off, or stick with a plain green to blend in.
 
 You probably shouldn't attempt this project if you've never soldered surface mount components before. It'll lead to a lot of frustration and potentially damaged boards and parts.
 
