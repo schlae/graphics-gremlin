@@ -36,6 +36,8 @@ Header J6 is optional. If you want to install it, remove pin 2 for keying.
 
 Before plugging the card into a PC, it is wise to use a multimeter to verify that there are no short circuits between the +5V line (ISA bus pin B3) and ground or between the +12V line (ISA bus pin B9) and ground.
 
+The card bracket may be fabricated from a plain, blank bracket such as a Keystone Electronics 9200. The dimensions are included in the KiCad file on the Dwgs.User layer. The best way to make holes in the bracket is by using a hand-operated sheet metal punch. A chassis nibbler is useful for making the DE-9 openings and the opening for the DIP switch bank.
+
 ## The FPGA
 [A separate document discusses the Verilog code.](https://github.com/schlae/graphics-gremlin/blob/main/verilog/README.md)
 
