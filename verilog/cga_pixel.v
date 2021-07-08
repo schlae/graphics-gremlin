@@ -14,6 +14,7 @@ module cga_pixel(
     input grph_mode,
     input bw_mode,
     input mode_640,
+    input tandy_16_mode,
     input thin_font,
     input[7:0] vram_data,
     input vram_read_char,
@@ -41,8 +42,9 @@ module cga_pixel(
     reg[1:0] display_enable_del;
     reg pix;
     reg pix_delay;
-    reg[7:0] c0;
-    reg[7:0] c1;
+    reg[1:0] pix_bits;
+    reg[1:0] pix_bits_old;
+    reg[3:0] tandy_bits;
     wire pix_640;
     wire[10:0] rom_addr;
     wire load_shifter;
@@ -50,7 +52,6 @@ module cga_pixel(
     // Character ROM
     reg[7:0] char_rom[0:4095];
     initial $readmemh("cga.hex", char_rom, 0, 4095);
-
 
     // Latch character and attribute data from VRAM
     // at appropriate times
@@ -65,33 +66,29 @@ module cga_pixel(
         end
     end
 
-    // Load or shift
-    assign load_shifter = (clk_seq == 5'd4);
-    always @ (posedge clk)
+    // Fetch pixel data for graphics modes
+    wire [2:0]muxin;
+    assign muxin = hres_mode ? (clk_seq[3:1] + 3'd6) : (clk_seq[4:2] + 3'd7);
+    always @ (*)
     begin
-        if (!video_enabled) begin
-            c0 <= 7'd0;
-            c1 <= 7'd0;
-        end else if (load_shifter) begin
-            c1[7] <= char_byte[7];
-            c0[7] <= char_byte[6];
-            c1[6] <= char_byte[5];
-            c0[6] <= char_byte[4];
-            c1[5] <= char_byte[3];
-            c0[5] <= char_byte[2];
-            c1[4] <= char_byte[1];
-            c0[4] <= char_byte[0];
-            c1[3] <= attr_byte[7];
-            c0[3] <= attr_byte[6];
-            c1[2] <= attr_byte[5];
-            c0[2] <= attr_byte[4];
-            c1[1] <= attr_byte[3];
-            c0[1] <= attr_byte[2];
-            c1[0] <= attr_byte[1];
-            c0[0] <= attr_byte[0];
-        end else if (clk_seq[1:0] == 2'b00) begin
-            c1 <= {c1[6:0], 1'b0};
-            c0 <= {c0[6:0], 1'b0};
+        if (video_enabled) begin
+            // Hi-res vs low-res needs different adjustments
+            // Normal CGA is low res only in graphics mode
+            // Tandy uses "high res" mode for both 320x200x16
+            // and 640x200x4 color modes
+            case (muxin)
+                3'd0: pix_bits <= char_byte[7:6];
+                3'd1: pix_bits <= char_byte[5:4];
+                3'd2: pix_bits <= char_byte[3:2];
+                3'd3: pix_bits <= char_byte[1:0];
+                3'd4: pix_bits <= attr_byte[7:6];
+                3'd5: pix_bits <= attr_byte[5:4];
+                3'd6: pix_bits <= attr_byte[3:2];
+                3'd7: pix_bits <= attr_byte[1:0];
+                default: pix_bits <= 2'b0;
+            endcase
+        end else begin
+            pix_bits <= 2'b0;
         end
     end
 
@@ -139,11 +136,25 @@ module cga_pixel(
         end
     end
 
-    // In 640x200 mode, alternate between c0 and c1 shift register
-    // outputs at specific times in the sequence
+    // In 640x200 mode, alternate between the two bits from
+    // the shift register outputs at specific times in the sequence
     wire[2:0] tmp_clk_seq;
     assign tmp_clk_seq = clk_seq + 3'd7;
-    assign pix_640 = tmp_clk_seq[1] ? c0[7] : c1[7];
+    assign pix_640 = tmp_clk_seq[1] ? pix_bits[0] : pix_bits[1];
+
+    // In Tandy 320x200x16 mode, concatenate two adjacent pixels
+    wire temp;
+    assign temp = clk_seq[1:0] == 2'b00;
+    always @ (posedge clk)
+    begin
+        if (clk_seq[0]) begin
+            if (clk_seq[1]) begin
+                tandy_bits <= {pix_bits_old, pix_bits};
+            end else begin
+                pix_bits_old <= pix_bits;
+            end
+        end
+    end
 
     // Add one clk cycle delay to match up pixel data with attribute byte
     // data.
@@ -161,6 +172,7 @@ module cga_pixel(
         .grph_mode(grph_mode),
         .bw_mode(bw_mode),
         .mode_640(mode_640),
+        .tandy_16_mode(tandy_16_mode),
         .display_enable(display_enable_del[0]),
         .blink_enabled(blink_enabled),
         .blink(blink),
@@ -168,9 +180,10 @@ module cga_pixel(
         .hsync(hsync),
         .vsync(vsync),
         .pix_in(pix_delay),
-        .c0(c0[7]),
-        .c1(c1[7]),
+        .c0(pix_bits[0]),
+        .c1(pix_bits[1]),
         .pix_640(pix_640),
+        .pix_tandy(tandy_bits),
         .pix_out(video)
     );
 

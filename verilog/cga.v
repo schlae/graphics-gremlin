@@ -21,7 +21,7 @@ module cga(
     output[7:0] bus_out,
     output bus_dir,
     input bus_aen,
-    output reg bus_rdy,
+    output bus_rdy,
 
     // RAM
     output ram_we_l,
@@ -41,6 +41,10 @@ module cga(
 
     parameter MDA_70HZ = 0;
     parameter BLINK_MAX = 0;
+    // `define CGA_SNOW = 1; No snow
+
+    parameter USE_BUS_WAIT = 0; // Should we add wait states on the ISA bus?
+    parameter NO_DISPLAY_DISABLE = 1; // If 1, prevents flicker artifacts in DOS
 
     parameter IO_BASE_ADDR = 20'h3d0; // MDA is 3B0, CGA is 3D0
     parameter FRAMEBUFFER_ADDR = 20'hB8000; // MDA is B0000, CGA is B8000
@@ -61,6 +65,7 @@ module cga(
     wire grph_mode;
     wire bw_mode;
     wire mode_640;
+    wire tandy_16_mode;
     wire video_enabled;
     wire blink_enabled;
 
@@ -78,6 +83,7 @@ module cga(
     wire[4:0] row_addr;
     wire line_reset;
     wire pixel_addr13;
+    wire pixel_addr14;
 
     wire charrom_read;
     wire disp_pipeline;
@@ -100,6 +106,7 @@ module cga(
 
     wire cpu_memsel;
     reg[1:0] wait_state = 2'd0;
+    reg bus_rdy_latch;
 
     // Synchronize ISA bus control lines to our clock
     always @ (posedge clk)
@@ -144,6 +151,12 @@ module cga(
     // Wait state generator
     // Optional for operation but required to run timing-sensitive demos
     // e.g. 8088MPH.
+    if (USE_BUS_WAIT == 0) begin
+        assign bus_rdy = 1;
+    end else begin
+        assign bus_rdy = bus_rdy_latch;
+    end
+
     assign cpu_memsel = bus_mem_cs & (~bus_memr_l | ~bus_memw_l);
 
     always @ (posedge clk)
@@ -152,24 +165,24 @@ module cga(
             case (wait_state)
                 2'b00: begin
                     if (clkdiv == 5'd17) wait_state <= 2'b01;
-                    bus_rdy <= 0;
+                    bus_rdy_latch <= 0;
                 end
                 2'b01: begin
                     if (clkdiv == 5'd20) wait_state <= 2'b10;
-                    bus_rdy <= 0;
+                    bus_rdy_latch <= 0;
                 end
                 2'b10: begin
                     wait_state <= 2'b10;
-                    bus_rdy <= 1;
+                    bus_rdy_latch <= 1;
                 end
                 default: begin
                     wait_state <= 2'b00;
-                    bus_rdy <= 0;
+                    bus_rdy_latch <= 0;
                 end
             endcase
         end else begin
             wait_state <= 2'b00;
-            bus_rdy <= 1;
+            bus_rdy_latch <= 1;
         end
     end
 
@@ -183,9 +196,16 @@ module cga(
     assign hres_mode = cga_control_reg[0]; // 1=80x25,0=40x25
     assign grph_mode = cga_control_reg[1]; // 1=graphics, 0=text
     assign bw_mode = cga_control_reg[2]; // 1=b&w, 0=color
-    assign video_enabled = cga_control_reg[3];
+    if (NO_DISPLAY_DISABLE == 1) begin
+        assign video_enabled = 1;
+    end else begin
+        assign video_enabled = cga_control_reg[3];
+    end
     assign mode_640 = cga_control_reg[4]; // 1=640x200 mode, 0=others
     assign blink_enabled = cga_control_reg[5];
+
+    // FIXME: temporary for testing
+    assign tandy_16_mode = cga_control_reg[6];
 
     assign hsync = hsync_int;
 
@@ -221,33 +241,21 @@ module cga(
         .line_reset(line_reset)
     );
 
-    if (MDA_70HZ) begin
-        // FIXME: are these OK?
-        defparam crtc.H_TOTAL = 8'd99;
-        defparam crtc.H_DISP = 8'd80;
-        defparam crtc.H_SYNCPOS = 8'd82;
-        defparam crtc.H_SYNCWIDTH = 4'd12;
-        defparam crtc.V_TOTAL = 7'd31;
-        defparam crtc.V_TOTALADJ = 5'd1;
-        defparam crtc.V_DISP = 7'd25;
-        defparam crtc.V_SYNCPOS = 7'd27;
-        defparam crtc.V_MAXSCAN = 5'd13;
-    end else begin
-        // CGA 80 column timings
-        defparam crtc.H_TOTAL = 8'd56; // 113
-        defparam crtc.H_DISP = 8'd40;   // 80
-        defparam crtc.H_SYNCPOS = 8'd45;    // 90
-        defparam crtc.H_SYNCWIDTH = 4'd10;
-        defparam crtc.V_TOTAL = 7'd31;
-        defparam crtc.V_TOTALADJ = 5'd6;
-        defparam crtc.V_DISP = 7'd25;
-        defparam crtc.V_SYNCPOS = 7'd28;
-        defparam crtc.V_MAXSCAN = 5'd7;
-        defparam crtc.C_START = 7'd6;
-        defparam crtc.C_END = 5'd7;
-    end
+    // CGA 40 column timings
+    defparam crtc.H_TOTAL = 8'd56; // 113
+    defparam crtc.H_DISP = 8'd40;   // 80
+    defparam crtc.H_SYNCPOS = 8'd45;    // 90
+    defparam crtc.H_SYNCWIDTH = 4'd10;
+    defparam crtc.V_TOTAL = 7'd31;
+    defparam crtc.V_TOTALADJ = 5'd6;
+    defparam crtc.V_DISP = 7'd25;
+    defparam crtc.V_SYNCPOS = 7'd28;
+    defparam crtc.V_MAXSCAN = 5'd7;
+    defparam crtc.C_START = 7'd6;
+    defparam crtc.C_END = 5'd7;
 
     // Interface to video SRAM chip
+`ifdef CGA_SNOW
     cga_vram video_buffer (
         .clk(clk),
         .isa_addr({4'b000, bus_a[14:0]}),
@@ -255,7 +263,8 @@ module cga(
         .isa_dout(bus_out_mem),
         .isa_read(bus_mem_cs & ~bus_memr_synced_l),
         .isa_write(bus_mem_cs & ~bus_memw_synced_l),
-        .pixel_addr({5'h00, pixel_addr13, crtc_addr[11:0], vram_read_a0}),
+        .pixel_addr({4'h0, pixel_addr14, pixel_addr13, crtc_addr[11:0],
+                    vram_read_a0}),
         .pixel_data(ram_1_d),
         .pixel_read(vram_read),
         .ram_a(ram_a),
@@ -263,12 +272,34 @@ module cga(
         .ram_we_l(ram_we_l),
         .isa_op_enable(isa_op_enable)
     );
+`else
+    // Just use the MDA VRAM interface (no snow)
+    mda_vram video_buffer (
+        .clk(clk),
+        .isa_addr({4'b000, bus_a[14:0]}),
+        .isa_din(bus_d),
+        .isa_dout(bus_out_mem),
+        .isa_read(bus_mem_cs & ~bus_memr_synced_l),
+        .isa_write(bus_mem_cs & ~bus_memw_synced_l),
+        .pixel_addr({4'h0, pixel_addr14, pixel_addr13, crtc_addr[11:0],
+                    vram_read_a0}),
+        .pixel_data(ram_1_d),
+        .pixel_read(vram_read),
+        .ram_a(ram_a),
+        .ram_d(ram_d),
+        .ram_we_l(ram_we_l),
+        .isa_op_enable(isa_op_enable)
+    );
+    defparam video_buffer.MDA_70HZ = 0; // 70Hz VRAM timing no good for CGA.
+`endif
 
     // In graphics mode, memory address MSB comes from CRTC row
     // which produces the weird CGA "interlaced" memory map
     assign pixel_addr13 = grph_mode ? row_addr[0] : crtc_addr[12];
 
-    defparam video_buffer.MDA_70HZ = MDA_70HZ;
+    // Address bit 14 is only used for Tandy modes (32K RAM)
+    assign pixel_addr14 = grph_mode ? row_addr[1] : 1'b0;
+
 
     // Sequencer state machine
     cga_sequencer sequencer (
@@ -295,6 +326,7 @@ module cga(
         .grph_mode(grph_mode),
         .bw_mode(bw_mode),
         .mode_640(mode_640),
+        .tandy_16_mode(tandy_16_mode),
         .thin_font(thin_font),
         .vram_data(ram_1_d),
         .vram_read_char(vram_read_char),

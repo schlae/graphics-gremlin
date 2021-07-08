@@ -20,7 +20,7 @@ module isavideo_t;
     wire[7:0] bus_d;
     reg[7:0] bus_d_out;
     reg bus_d_write = 0;
-    wire bus_rdy_l;
+    wire bus_rdy;
 
     assign bus_d = (bus_d_write) ? bus_d_out : 8'hZZ;
 
@@ -31,14 +31,12 @@ module isavideo_t;
     reg bus_aen = 1;
 
     wire ram_we_l;
-    wire ram_ce_l;
-    wire ram_oe_l;
     wire[18:0] ram_a;
     wire[7:0] ram_d;
     // Use isavideo here for MDA, cga_top for CGA.
-    mda70_top dut (
-        .clk_10m(clk), // for MDA
-//        .clk_14m318(clk), // for CGA
+    cga_top dut (
+//        .clk_10m(clk), // for MDA
+        .clk_14m318(clk), // for CGA
 
         .bus_a(bus_a),
         .bus_ior_l(bus_ior_l),
@@ -47,10 +45,8 @@ module isavideo_t;
         .bus_memw_l(bus_memw_l),
         .bus_aen(bus_aen),
         .bus_d(bus_d),
-        .bus_rdy_l(bus_rdy_l),
+        .bus_rdy(bus_rdy),
 
-        .ram_ce_l(ram_ce_l),
-        .ram_oe_l(ram_oe_l),
         .ram_we_l(ram_we_l),
         .ram_d(ram_d),
         .ram_a(ram_a),
@@ -65,8 +61,8 @@ module isavideo_t;
     is61c5128 vram(
         .address(ram_a),
         .data(ram_d),
-        .ce_l(ram_ce_l),
-        .oe_l(ram_oe_l),
+        .ce_l(0),
+        .oe_l(0),
         .we_l(ram_we_l)
     );
 
@@ -108,7 +104,7 @@ module isavideo_t;
             #176
             isa_op(0, read, io);
             #420
-            wait(~bus_rdy_l);
+            wait(bus_rdy);
             isa_op(1, read, io);
             #236
             bus_d_write = 0;
@@ -119,8 +115,8 @@ module isavideo_t;
         input[7:0] addr;
         input[7:0] data;
         begin
-           isa_cycle(20'h3B4, addr, 0, 1);
-           isa_cycle(20'h3B5, data, 0, 1);
+           isa_cycle(20'h3D4, addr, 0, 1);
+           isa_cycle(20'h3D5, data, 0, 1);
         end
     endtask
 
@@ -134,8 +130,8 @@ module isavideo_t;
         bus_aen = 0;
 
         // Set up graphics mode for this test.
-        isa_cycle(20'h3B8, 8'b0000_1010, 0, 1); // 0000_1010
-        isa_cycle(20'h3B9, 8'b0000_0000, 0, 1);
+        isa_cycle(20'h3D8, 8'b0000_1011, 0, 1); // 0000_1010
+        isa_cycle(20'h3D9, 8'b0000_0000, 0, 1);
         crtc_write(8'd0, 8'd56);
         crtc_write(8'd1, 8'd40);
         crtc_write(8'd2, 8'd45);
@@ -147,7 +143,7 @@ module isavideo_t;
 
 
 
-        bus_a = 20'hB0055;
+        bus_a = 20'hB8055;
         bus_d_out = 8'hAA;
         bus_d_write = 1;
         #430
@@ -160,12 +156,12 @@ module isavideo_t;
         for (i = 0; i < 20; i++) begin
         #12
             #400
-            bus_a = 20'hB0000 | i;
-            bus_d_out = 8'hA0 + i;
+            bus_a = 20'hB8000 | i;
+            bus_d_out = 8'h11; //8'hA0 + i;
             bus_memw_l = 0;
             bus_d_write = 1;
             #600
-            wait(~bus_rdy_l);
+            wait(bus_rdy);
             bus_memw_l = 1; // was 200
             #50 bus_d_write = 0;
         end
@@ -173,45 +169,45 @@ module isavideo_t;
         for (i = 0; i < 20; i++) begin
         #12
             #400
-            bus_a = 20'hB0000 | i;
+            bus_a = 20'hB8000 | i;
             bus_memr_l = 0;
             bus_d_write = 0;
             #600
-            wait(~bus_rdy_l);
+            wait(bus_rdy);
             bus_memr_l = 1;
         end
         #400
         for (i = 0; i < 20; i+=2) begin
-        bus_a = 20'hB0000 | i;
+        bus_a = 20'hB8000 | i;
         bus_d_write = 0;
         #176
         bus_memr_l = 0;
         #420
-        wait(~bus_rdy_l);
+        wait(bus_rdy);
         bus_memr_l = 1;
         #236
-        bus_a = 20'hB0000 | (i + 1);
+        bus_a = 20'hB8000 | (i + 1);
         #174
         bus_memr_l = 0;
         #420
-        wait(~bus_rdy_l);
+        wait(bus_rdy);
         bus_memr_l = 1;
         #886
-        bus_a = 20'hB0000 | i;
+        bus_a = 20'hB8000 | i;
         bus_d_out = 8'h00 + (2<<(i&7));
         bus_d_write = 1;
         #164
         bus_memw_l = 0;
         #420
-        wait(~bus_rdy_l);
+        wait(bus_rdy);
         bus_memw_l = 1;
         #224
-        bus_a = 20'hB0000 | (i + 1);
+        bus_a = 20'hB8000 | (i + 1);
         bus_d_out = 8'h00 + (2<<((i + 1)&7));
         #196
         bus_memw_l = 0;
         #420
-        wait(~bus_rdy_l);
+        wait(bus_rdy);
         bus_memw_l = 1;
         #1494
         bus_d_write = 0;

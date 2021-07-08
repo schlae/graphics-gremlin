@@ -24,6 +24,7 @@ module cga_composite(
     output [6:0] comp_video
     );
 
+    reg[3:0] vid_del;
     reg hsync_dly = 1'b0;
     reg vsync_dly_l = 1'b0;
     reg[3:0] hsync_counter = 4'd0;
@@ -56,6 +57,14 @@ module cga_composite(
     always @ (posedge clk)
     begin
         hclk_old <= hclk;
+    end
+
+    // Resync the video to the falling edge of 14.318MHz
+    always @ (posedge clk)
+    begin
+        if (clk_14m3 && !clk_old) begin
+            vid_del <= video;
+        end
     end
 
     // Delay the sync pulses
@@ -142,7 +151,7 @@ module cga_composite(
     always @ (*)
     begin
         // R, G, B
-        case ({video[2] ^ burst, video[1] ^ burst, video[0]})
+        case ({vid_del[2] ^ burst, vid_del[1] ^ burst, vid_del[0]})
             3'd0: color_out <= 1'b0;
             3'd1: color_out <= blue;
             3'd2: color_out <= green;
@@ -156,12 +165,12 @@ module cga_composite(
 
     // Black and white mode? Color is disabled.
     assign color_out2 = bw_mode ?
-                        (video[2:0] != 0) :
+                        (vid_del[2:0] != 0) :
                         (color_out);
 
     always @ (*)
     begin
-        case (video[2:0])
+        case (vid_del[2:0])
             3'd0:  grey_level <= 7'd29;
             3'd1:  grey_level <= 7'd36;
             3'd2:  grey_level <= 7'd49;
@@ -173,7 +182,7 @@ module cga_composite(
         endcase
     end
 
-    assign comp_video = ~csync ? 0 : (grey_level + (video[3] ? 7'd31 : 7'd0) +
+    assign comp_video = ~csync ? 0 : (grey_level + (vid_del[3] ? 7'd31 : 7'd0) +
                         (color_out2 ? 7'd28 : 7'd0));
 
 endmodule

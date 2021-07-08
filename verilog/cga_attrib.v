@@ -15,6 +15,7 @@ module cga_attrib(
     input grph_mode,
     input bw_mode,
     input mode_640,
+    input tandy_16_mode,
     input display_enable,
     input blink_enabled,
     input blink,
@@ -25,6 +26,7 @@ module cga_attrib(
     input c0,
     input c1,
     input pix_640,
+    input [3:0] pix_tandy,
     output reg[3:0] pix_out
     );
 
@@ -41,6 +43,7 @@ module cga_attrib(
     wire shutter;
     wire selblue;
     wire[3:0] rgbi;
+    wire[3:0] active_area;
 
     // Extract attributes from the attribute byte
     assign att_fg = att_byte[3:0];
@@ -62,7 +65,9 @@ module cga_attrib(
     assign alpha_dots = (pix_in & blink_area) | cursorblink;
 
     // Determine mux A and mux B inputs for selecting output colors.
-    assign mux_a = ~display_enable | (grph_mode ? ~(~mode_640 & (c0 | c1)) :
+    assign mux_a = ~display_enable |
+                   (grph_mode ?
+                        (tandy_16_mode ? 0 : (~(~mode_640 & (c0 | c1)))) :
                     ~alpha_dots);
     assign mux_b = grph_mode | ~display_enable;
 
@@ -72,6 +77,8 @@ module cga_attrib(
     // Blue palette selection bit
     assign selblue = bw_mode ? c0 : cga_color_reg[5];
 
+    assign active_area = tandy_16_mode ? pix_tandy : {cga_color_reg[4], c1, c0, selblue};
+
     always @ (*)
     begin
         if (shutter) begin
@@ -80,7 +87,7 @@ module cga_attrib(
             case ({mux_b, mux_a})
                 2'b00: pix_out <= att_fg; // Text foreground
                 2'b01: pix_out <= att_bg; // Text background
-                2'b10: pix_out <= {cga_color_reg[4], c1, c0, selblue}; // Graphics
+                2'b10: pix_out <= active_area; // Graphics
                 2'b11: pix_out <= cga_color_reg[3:0]; // Overscan color
             endcase
         end

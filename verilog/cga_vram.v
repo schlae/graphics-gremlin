@@ -32,7 +32,7 @@ module cga_vram(
     output ram_we_l
     );
 
-    parameter MDA_70HZ = 1;
+    parameter MDA_70HZ = 0;
 
     reg[19:0] op_addr = 20'd0;
     reg[7:0] ram_write_data = 8'd0;
@@ -99,11 +99,11 @@ module cga_vram(
     end
 
     // Pixel data output mux
-    always @ (*)
+    always @ (posedge clk)
     begin
         if (isa_read || (write_del == 3'd3) || (write_del == 3'd4)) begin
             // The cause of CGA snow!
-            pixel_data = 8'hff;
+            pixel_data <= 8'hff;
         end else begin
             pixel_data <= ram_d;
         end
