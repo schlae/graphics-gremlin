@@ -38,6 +38,10 @@ Before plugging the card into a PC, it is wise to use a multimeter to verify tha
 
 The card bracket may be fabricated from a plain, blank bracket such as a Keystone Electronics 9200. The dimensions are included in the KiCad file on the Dwgs.User layer. The best way to make holes in the bracket is by using a hand-operated sheet metal punch. A chassis nibbler is useful for making the DE-9 openings and the opening for the DIP switch bank.
 
+You can also try 3D printing the bracket using the file below. There is a small line printed near the top which marks where you have to bend the bracket after you finish printing it. Use a hair dryer or a heat gun (on low) to soften it, and then bend it over a straightedge or ruler. For a slightly better finish on the outside of the bracket, flip it over in your slicer software so that the outside surface faces the bed of the printer.
+
+[ISA bracket STL file](https://github.com/schlae/graphics-gremlin/blob/main/isabracket.stl)
+
 ## The FPGA
 [A separate document discusses the Verilog code.](https://github.com/schlae/graphics-gremlin/blob/main/verilog/README.md)
 
