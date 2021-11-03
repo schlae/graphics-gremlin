@@ -36,6 +36,15 @@ Other miscellaneous files include:
 
 To build the project, you will need to install the tools from [Project IceStorm](http://www.clifford.at/icestorm/) (full instructions are available at that link). The Graphics Gremlin uses NextPNR, so make sure you install that.
 
-Once the tools are installed, just navigate to the Graphics Gremlin Verilog directory and run `make`. If you have the FTDI programming cable hooked up to the card, you can also type `make prog`. As a convenience, `make reset` will not program the FPGA but will toggle its reset line which is useful if you change the red switch bank and don't want to cycle power on the host PC.
+Alternatively, you can install the [OSS Cad Suite](https://github.com/YosysHQ/oss-cad-suite-build) which is prebuilt and runs on a variety of platforms.
+
+Once the tools are installed, just navigate to the Graphics Gremlin Verilog directory and run
+```
+mkdir build
+make
+```
+If you have the FTDI programming cable hooked up to the card, you can also type `make prog`. As a convenience, `make reset` will not program the FPGA but will toggle its reset line which is useful if you change the red switch bank and don't want to cycle power on the host PC.
+
+If the `make prog` command can't find the FTDI programming cable, make sure you have the udev rules set up.
 
 
