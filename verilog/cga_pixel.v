@@ -48,6 +48,7 @@ module cga_pixel(
     wire pix_640;
     wire[10:0] rom_addr;
     wire load_shifter;
+    wire[2:0] charpix_sel;
 
     // Character ROM
     reg[7:0] char_rom[0:4095];
@@ -116,11 +117,12 @@ module cga_pixel(
     // This must be a mux. Using a shift register causes very weird
     // issues with the character ROM and Yosys turns it into a bunch
     // of flip-flops instead of a ROM.
+    assign charpix_sel = hres_mode ? (clk_seq[3:1] + 3'd6) : (clk_seq[4:2] + 3'd7);
     always @ (*)
     begin
         if (video_enabled) begin
             // Hi-res vs low-res needs different adjustments
-            case (hres_mode ? (clk_seq[3:1] + 3'd6) : (clk_seq[4:2] + 3'd7))
+            case (charpix_sel)
                 5'd0: pix <= charbits[7];
                 5'd1: pix <= charbits[6];
                 5'd2: pix <= charbits[5];
