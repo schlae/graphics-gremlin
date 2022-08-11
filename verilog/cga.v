@@ -315,7 +315,8 @@ module cga(
         .disp_pipeline(disp_pipeline),
         .isa_op_enable(isa_op_enable),
         .hclk(hclk),
-        .lclk(lclk)
+        .lclk(lclk),
+        .tandy_16_gfx(tandy_16_mode & grph_mode & hres_mode)
     );
 
     // Pixel pusher
