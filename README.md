@@ -71,6 +71,15 @@ Once the SPI flash has been programmed, iceprog toggles the reset line so that t
 
 Note that leaving the programming cable plugged in can sometimes cause issues with the FPGA being held in reset when the PC powers up. In that case, simply unplug the cable and reboot the PC.
 
+### Windows Instructions
+Thanks to [midicdj1000](https://github.com/midicdj1000), here are some instructions for programming the FPGA using Windows.
+
+1. Download and extract the Windows build of the [OSS CAD Suite](https://github.com/YosysHQ/oss-cad-suite-build/releases).
+2. Connect the FT2232H mini module according to the directions in the previous section.
+3. Install the [FTDI driver](https://ftdichip.com/drivers/).
+4. Change the driver to libusbK using these [instructions](https://learn.adafruit.com/adafruit-ft232h-breakout/windows-setup).
+5. From the command line in the Bin folder of the OSS-CAD-Suite folder, run `iceprog -p isavideo.binm`. (Be sure to include the appropriate path to the isavideo.binm file, or simply copy the file into the Bin folder.)
+
 ## The Red Switch Bank
 
 The red switch bank on the top right of the card controls two things: the bitstream selected by the FPGA when it powers up and specific settings for the selected bitstream.
