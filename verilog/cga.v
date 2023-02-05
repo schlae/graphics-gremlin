@@ -6,7 +6,7 @@
 // http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
 // Commons, PO Box 1866, Mountain View, CA 94042, USA.
 //
-`default_nettype none
+`default_nettype wire
 module cga(
     // Clocks
     input clk,
@@ -51,9 +51,14 @@ module cga(
 
     wire crtc_cs;
     wire status_cs;
+    wire tandy_newcolorsel_cs;
     wire colorsel_cs;
     wire control_cs;
     wire bus_mem_cs;
+    wire video_mem_cs;
+    wire tandy_page_cs;
+    wire nmi_mask_register_cs;
+    wire tandy_mode_cs;
 
     reg[7:0] bus_int_out;
     wire[7:0] bus_out_crtc;
@@ -61,11 +66,16 @@ module cga(
     wire[7:0] cga_status_reg;
     reg[7:0] cga_control_reg = 8'b0010_1000; // 0010_1001
     reg[7:0] cga_color_reg = 8'b0000_0000;
+    reg[7:0] tandy_color_reg = 8'b0000_0000;
+    reg[3:0] tandy_newcolor = 4'b0000;
+    reg[3:0] tandy_bordercol = 4'b0000;
+    reg[4:0] tandy_modesel = 5'b00000;
+    reg tandy_palette_set;
     wire hres_mode;
     wire grph_mode;
     wire bw_mode;
     wire mode_640;
-    wire tandy_16_mode;
+//    wire tandy_16_mode;
     wire video_enabled;
     wire blink_enabled;
 
@@ -107,6 +117,9 @@ module cga(
     wire cpu_memsel;
     reg[1:0] wait_state = 2'd0;
     reg bus_rdy_latch;
+    reg [7:0] tandy_page_data = 8'h00;
+    reg [7:0] nmi_mask_register_data = 8'hFF;
+    reg tandy_mode = 1'b0;
 
     // Synchronize ISA bus control lines to our clock
     always @ (posedge clk)
@@ -123,11 +136,27 @@ module cga(
     // Mapped IO
     assign crtc_cs = (bus_a[19:3] == IO_BASE_ADDR[19:3]) & ~bus_aen; // 3B4/3B5
     assign status_cs = (bus_a == IO_BASE_ADDR + 20'hA) & ~bus_aen;
+    assign tandy_newcolorsel_cs = (bus_a == IO_BASE_ADDR + 20'hE) & ~bus_aen;
     assign control_cs = (bus_a == IO_BASE_ADDR + 20'h8) & ~bus_aen;
     assign colorsel_cs = (bus_a == IO_BASE_ADDR + 20'h9) & ~bus_aen;
-
-    // Memory-mapped from B0000 to B7FFF
-    assign bus_mem_cs = (bus_a[19:15] == FRAMEBUFFER_ADDR[19:15]);
+    assign tandy_mode_cs = (bus_a[15:0] == 16'h0370) & ~bus_aen;
+    assign tandy_page_cs = (bus_a[15:0] == 16'h03DF) & ~bus_aen & tandy_mode;
+    assign nmi_mask_register_cs = (bus_a[15:3] == (16'h00a0 >> 3)) & ~bus_aen & tandy_mode; // 0xa0 .. 0xa7
+   
+    assign bus_mem_cs = (bus_a[19:15] == FRAMEBUFFER_ADDR[19:15]); // B8000 - BFFFF (16 KB / 32 KB)
+    assign video_mem_cs = (bus_a[19:17] == nmi_mask_register_data[3:1]) & tandy_mode; // 128KB
+    
+    /*    
+    // Tandy base memory shared, not implementable with Graphics Gremlin, address is only input by design
+    // As a result, some games or programs designed for Tandy will not be able to run or be played
+    always @ (*)
+    begin
+        if (bus_mem_cs && ~bus_iow_l && tandy_mode)
+            latch_bus_a   = {nmi_mask_register_data[3:1], tandy_page_data[3] ? {1'b0, tandy_page_data[5:3], bus_a[14:0]} : {2'b00, tandy_page_data[5:4], bus_a[14:0]}};
+        else
+            latch_bus_a   = bus_a;
+    end
+    */
 
     // Mux ISA bus data from every possible internal source.
     always @ (*)
@@ -135,7 +164,11 @@ module cga(
         if (bus_mem_cs & ~bus_memr_l) begin
             bus_int_out <= bus_out_mem;
         end else if (status_cs & ~bus_ior_l) begin
-            bus_int_out <= cga_status_reg;
+            bus_int_out <= cga_status_reg;            
+        end else if (tandy_mode_cs & ~bus_ior_l) begin
+            bus_int_out <= {7'b0, tandy_mode};
+        end else if (nmi_mask_register_cs & ~bus_ior_l) begin
+            bus_int_out <= nmi_mask_register_data;
         end else if (crtc_cs & ~bus_ior_l & (bus_a[0] == 1)) begin
             bus_int_out <= bus_out_crtc;
         end else begin
@@ -144,7 +177,7 @@ module cga(
     end
 
     // Only for read operations does bus_dir go high.
-    assign bus_dir = ((crtc_cs | status_cs) & ~bus_ior_l) |
+    assign bus_dir = ((crtc_cs | status_cs | tandy_mode_cs | nmi_mask_register_cs) & ~bus_ior_l) |
                     (bus_mem_cs & ~bus_memr_l);
     assign bus_out = bus_int_out;
 
@@ -204,20 +237,40 @@ module cga(
     assign mode_640 = cga_control_reg[4]; // 1=640x200 mode, 0=others
     assign blink_enabled = cga_control_reg[5];
 
-    // FIXME: temporary for testing
-    assign tandy_16_mode = cga_control_reg[6];
+	assign tandy_border_en = tandy_modesel[2];
+	assign tandy_color_4 = tandy_modesel[3];
+	assign tandy_color_16 = tandy_modesel[4];
+
+//    assign tandy_16_mode = 1'b1;
 
     assign hsync = hsync_int;
-
+    
     // Update control or color register
     always @ (posedge clk)
     begin
+        tandy_palette_set <= 1'b0;
         if (~bus_iow_synced_l) begin
             if (control_cs) begin
                 cga_control_reg <= bus_d;
             end else if (colorsel_cs) begin
                 cga_color_reg <= bus_d;
+            end else if (status_cs) begin
+                tandy_color_reg <= bus_d;
+            end else if (tandy_mode_cs) begin
+                tandy_mode <= bus_d[0];
+            end else if (tandy_page_cs) begin // Tandy Page Data
+                tandy_page_data <= bus_d;
+            end else if (nmi_mask_register_cs) begin // Mask Register
+                nmi_mask_register_data <= bus_d;
+            end else if (tandy_newcolorsel_cs && tandy_color_reg[7:4] == 4'b0001) begin // Palette Mask Register
+                tandy_newcolor <= bus_d[3:0];
+                tandy_palette_set <= 1'b1;
+            end else if (tandy_newcolorsel_cs && tandy_color_reg[3:0] == 4'b0010) begin // Border Color
+                tandy_bordercol <= bus_d[3:0];
+            end else if (tandy_newcolorsel_cs && tandy_color_reg[3:0] == 4'b0011) begin // Mode Select
+                tandy_modesel <= bus_d[4:0];
             end
+
         end
     end
 
@@ -255,16 +308,20 @@ module cga(
     defparam crtc.C_END = 5'd7;
 
     // Interface to video SRAM chip
+    
+    wire [18:0] CGA_VRAM_ADDR;
+    assign CGA_VRAM_ADDR = {4'h0, pixel_addr14, pixel_addr13, crtc_addr[11:0],
+                    vram_read_a0};
+    
 `ifdef CGA_SNOW
     cga_vram video_buffer (
         .clk(clk),
-        .isa_addr({4'b000, bus_a[14:0]}),
+        .isa_addr(video_mem_cs ? {4'b0000, bus_a[14:0]} : tandy_page_data[3] ? {3'b000, tandy_page_data[5:3], bus_a[13:0]} : {2'b00, tandy_page_data[5:4], bus_a[14:0]}),
         .isa_din(bus_d),
         .isa_dout(bus_out_mem),
-        .isa_read(bus_mem_cs & ~bus_memr_synced_l),
-        .isa_write(bus_mem_cs & ~bus_memw_synced_l),
-        .pixel_addr({4'h0, pixel_addr14, pixel_addr13, crtc_addr[11:0],
-                    vram_read_a0}),
+        .isa_read((bus_mem_cs | video_mem_cs) & ~bus_memr_synced_l),
+        .isa_write((bus_mem_cs | video_mem_cs) & ~bus_memw_synced_l),        
+        .pixel_addr((grph_mode & hres_mode) ? {tandy_page_data[2:1], CGA_VRAM_ADDR[14:0]} : {tandy_page_data[2:0], CGA_VRAM_ADDR[13:0]}),
         .pixel_data(ram_1_d),
         .pixel_read(vram_read),
         .ram_a(ram_a),
@@ -276,13 +333,12 @@ module cga(
     // Just use the MDA VRAM interface (no snow)
     mda_vram video_buffer (
         .clk(clk),
-        .isa_addr({4'b000, bus_a[14:0]}),
+        .isa_addr(tandy_mode ? video_mem_cs ? {4'b0000, bus_a[14:0]} : tandy_page_data[3] ? {3'b000, tandy_page_data[5:3], bus_a[13:0]} : {2'b00, tandy_page_data[5:4], bus_a[14:0]} : {4'b0000, bus_a[14:0]}),
         .isa_din(bus_d),
         .isa_dout(bus_out_mem),
-        .isa_read(bus_mem_cs & ~bus_memr_synced_l),
-        .isa_write(bus_mem_cs & ~bus_memw_synced_l),
-        .pixel_addr({4'h0, pixel_addr14, pixel_addr13, crtc_addr[11:0],
-                    vram_read_a0}),
+        .isa_read((bus_mem_cs | video_mem_cs) & ~bus_memr_synced_l),
+        .isa_write((bus_mem_cs | video_mem_cs) & ~bus_memw_synced_l),
+        .pixel_addr(tandy_mode ? (grph_mode & hres_mode) ? {tandy_page_data[2:1], CGA_VRAM_ADDR[14:0]} : {tandy_page_data[2:0], CGA_VRAM_ADDR[13:0]} : CGA_VRAM_ADDR[13:0]),
         .pixel_data(ram_1_d),
         .pixel_read(vram_read),
         .ram_a(ram_a),
@@ -316,7 +372,8 @@ module cga(
         .isa_op_enable(isa_op_enable),
         .hclk(hclk),
         .lclk(lclk),
-        .tandy_16_gfx(tandy_16_mode & grph_mode & hres_mode)
+        .tandy_16_gfx(grph_mode & hres_mode),
+        .tandy_color_16(tandy_color_16)
     );
 
     // Pixel pusher
@@ -327,7 +384,6 @@ module cga(
         .grph_mode(grph_mode),
         .bw_mode(bw_mode),
         .mode_640(mode_640),
-        .tandy_16_mode(tandy_16_mode),
         .thin_font(thin_font),
         .vram_data(ram_1_d),
         .vram_read_char(vram_read_char),
@@ -343,6 +399,12 @@ module cga(
         .vsync(vsync_l),
         .video_enabled(video_enabled),
         .cga_color_reg(cga_color_reg),
+        .tandy_palette_color(tandy_color_reg[3:0]),
+        .tandy_newcolor(tandy_newcolor),
+        .tandy_palette_set(tandy_palette_set),
+        .tandy_bordercol(tandy_bordercol),
+        .tandy_color_4(tandy_color_4),
+        .tandy_color_16(tandy_color_16),
         .video(video)
     );
 
