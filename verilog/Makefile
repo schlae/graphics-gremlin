@@ -8,8 +8,8 @@
 #
 
 PROJ = isavideo
-IMAGES = mda70_top mda_top cga_top
-SOURCES = mda70_top.v mda_top.v mda.v crtc6845.v mda_vgaport.v mda_vram.v mda_attrib.v mda_sequencer.v mda_pixel.v cga_top.v cga.v cga_vgaport.v cga_sequencer.v cga_pixel.v cga_attrib.v cga_vram.v cga_composite.v cga_scandoubler.v
+IMAGES = hgc70_top hgc_top cga_top
+SOURCES = hgc70_top.v hgc_top.v hgc.v crtc6845.v hgc_vgaport.v hgc_vram.v hgc_attrib.v hgc_sequencer.v hgc_pixel.v cga_top.v cga.v cga_vgaport.v cga_sequencer.v cga_pixel.v cga_attrib.v cga_vram.v cga_composite.v cga_scandoubler.v
 PIN_DEF =  gremlin.pcf
 DEVICE = hx8k
 ODIR = build
@@ -21,7 +21,7 @@ all: $(addprefix $(ODIR)/,$(addsuffix .rpt,$(IMAGES))) $(ODIR)/$(PROJ).binm
 # removed %.v
 $(ODIR)/%.json: $(SOURCES)
 	yosys -p 'synth_ice40 -top $(basename $(notdir $@)) -json $@' $(SOURCES) -E $(basename $(notdir $@)).d
-#	yosys -p 'synth_ice40 -top mda_top -json $@' $(SOURCES) -E $(DEPS)
+#	yosys -p 'synth_ice40 -top hgc_top -json $@' $(SOURCES) -E $(DEPS)
 #	@echo yosys -p 'synth_ice40 -top isavideo -json $@' $^ -E $(DEPS)
 	echo $@
 

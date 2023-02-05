@@ -6,7 +6,7 @@
 // http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
 // Commons, PO Box 1866, Mountain View, CA 94042, USA.
 //
-module mda_vram(
+module hgc_vram(
     // Clock
     input clk,
 
@@ -32,7 +32,7 @@ module mda_vram(
     output ram_we_l
     );
 
-    parameter MDA_70HZ = 1;
+    parameter HGC_70HZ = 1;
 
     wire ram_write;
     reg[2:0] isa_phase = 3'd0;
@@ -143,7 +143,7 @@ module mda_vram(
                 3'd0: begin
                         // Read signal is active, so start read phase
                         if (op_read_queued) begin
-                            if (MDA_70HZ == 1) begin
+                            if (HGC_70HZ == 1) begin
                                 // At faster PLL clock, delay SRAM
                                 // read by 1 cycle to allow for more
                                 // address setup time.

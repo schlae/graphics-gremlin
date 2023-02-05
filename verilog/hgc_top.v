@@ -7,7 +7,7 @@
 // Commons, PO Box 1866, Mountain View, CA 94042, USA.
 //
 `default_nettype none
-module mda70_top(
+module hgc_top(
     // Clocks
     input clk_10m,
     input clk_14m318,
@@ -55,10 +55,6 @@ module mda70_top(
     input switch3
     );
 
-    // Sets up the card to generate a video signal
-    // that will work with a standard VGA monitor
-    // connected to the VGA port.
-
     wire clk_main;
     wire pll_lock;
 
@@ -87,15 +83,15 @@ module mda70_top(
 
 
     // Take our incoming 10MHz clock and generate the pixel clock
-    // 56.875MHz: 0, 90, 4
-    `ifdef SYNTHESIS
+    // 33MHz: 0, 105, 5
+        `ifdef SYNTHESIS
     SB_PLL40_PAD #(
         .FEEDBACK_PATH("SIMPLE"),
         .DIVR(0),
-        .DIVF(90),
-        .DIVQ(4),
+        .DIVF(105),
+        .DIVQ(5),
         .FILTER_RANGE(1)
-    ) mda_pll (
+    ) hgc_pll (
         .LOCK(pll_lock),
         .RESETB(1'b1),
         .BYPASS(1'b0),
@@ -106,7 +102,7 @@ module mda70_top(
     assign clk_main = clk_10m;
     `endif
 
-    mda_vgaport vga (
+    hgc_vgaport vga (
         .clk(clk_main),
         .video(video),
         .intensity(intensity),
@@ -115,7 +111,7 @@ module mda70_top(
         .blue(blue)
     );
 
-    mda mda1 (
+    hgc hgc1 (
         .clk(clk_main),
         .bus_a(bus_a),
         .bus_ior_l(bus_ior_l),
@@ -135,8 +131,7 @@ module mda70_top(
         .video(video)
     );
 
-    defparam mda1.MDA_70HZ = 1;
-    // Adjust blink rate
-    defparam mda1.BLINK_MAX = 24'd9100000;
+    defparam hgc1.HGC_70HZ = 0;
+    defparam hgc1.BLINK_MAX = 24'd5280000;
 
 endmodule

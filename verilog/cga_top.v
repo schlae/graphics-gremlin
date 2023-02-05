@@ -58,7 +58,7 @@ module cga_top(
     // Sets up the card to generate a video signal
     // that will work with a standard VGA monitor
     // connected to the VGA port.
-    parameter MDA_70HZ = 0;
+    parameter HGC_70HZ = 0;
 
     wire clk_main;
     wire pll_lock;

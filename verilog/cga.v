@@ -39,15 +39,15 @@ module cga(
     input thin_font
     );
 
-    parameter MDA_70HZ = 0;
+    parameter HGC_70HZ = 0;
     parameter BLINK_MAX = 0;
     // `define CGA_SNOW = 1; No snow
 
     parameter USE_BUS_WAIT = 0; // Should we add wait states on the ISA bus?
     parameter NO_DISPLAY_DISABLE = 1; // If 1, prevents flicker artifacts in DOS
 
-    parameter IO_BASE_ADDR = 20'h3d0; // MDA is 3B0, CGA is 3D0
-    parameter FRAMEBUFFER_ADDR = 20'hB8000; // MDA is B0000, CGA is B8000
+    parameter IO_BASE_ADDR = 20'h3d0; // HGC is 3B0, CGA is 3D0
+    parameter FRAMEBUFFER_ADDR = 20'hB8000; // HGC is B0000, CGA is B8000
 
     wire crtc_cs;
     wire status_cs;
@@ -330,8 +330,8 @@ module cga(
         .isa_op_enable(isa_op_enable)
     );
 `else
-    // Just use the MDA VRAM interface (no snow)
-    mda_vram video_buffer (
+    // Just use the HGC VRAM interface (no snow)
+    hgc_vram video_buffer (
         .clk(clk),
         .isa_addr(tandy_mode ? video_mem_cs ? {4'b0000, bus_a[14:0]} : tandy_page_data[3] ? {3'b000, tandy_page_data[5:3], bus_a[13:0]} : {2'b00, tandy_page_data[5:4], bus_a[14:0]} : {4'b0000, bus_a[14:0]}),
         .isa_din(bus_d),
@@ -346,7 +346,7 @@ module cga(
         .ram_we_l(ram_we_l),
         .isa_op_enable(isa_op_enable)
     );
-    defparam video_buffer.MDA_70HZ = 0; // 70Hz VRAM timing no good for CGA.
+    defparam video_buffer.HGC_70HZ = 0; // 70Hz VRAM timing no good for CGA.
 `endif
 
     // In graphics mode, memory address MSB comes from CRTC row

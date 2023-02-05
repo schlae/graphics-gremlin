@@ -7,7 +7,7 @@
 // Commons, PO Box 1866, Mountain View, CA 94042, USA.
 //
 `default_nettype none
-module mda_attrib(
+module hgc_attrib(
     input clk,
     input[7:0] att_byte,
     input[4:0] row_addr,
@@ -17,7 +17,9 @@ module mda_attrib(
     input cursor,
     input pix_in,
     output pix_out,
-    output intensity_out
+    output intensity_out,
+    input grph_mode,
+    input pix_750
     );
 
     reg blinkdiv;
@@ -59,10 +61,10 @@ module mda_attrib(
     assign blink_area = att_blink & blinkdiv & ~cursor & blink_enabled;
     assign vid_underline = (pix_in | att_underline);
     assign alpha_dots = (vid_underline & ~att_nodisp & ~blink_area) | cursorblink;
-    assign pix_out = (alpha_dots ^ att_inverse) & display_enable;
+    assign pix_out = display_enable ? grph_mode ? pix_750 : (alpha_dots ^ att_inverse) : 1'b0;
 
     // Assign intensity signal
-    assign intensity_out = (alpha_dots ? intensity_fg : intensity_bg) & display_enable;
+    assign intensity_out = display_enable ? grph_mode ? pix_750 : (alpha_dots ? intensity_fg : intensity_bg) : 1'b0;
 
 
 endmodule
