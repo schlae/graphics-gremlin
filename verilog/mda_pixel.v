@@ -7,7 +7,7 @@
 // Commons, PO Box 1866, Mountain View, CA 94042, USA.
 //
 `default_nettype none
-module hgc_pixel(
+module mda_pixel(
     input clk,
     input[4:0] clk_seq,
     input[7:0] vram_data,
@@ -43,7 +43,7 @@ module hgc_pixel(
 
     // Character ROM
     reg[7:0] char_rom[0:4095];
-    initial $readmemh("hgc.hex", char_rom, 0, 4095);
+    initial $readmemh("mda.hex", char_rom, 0, 4095);
 
 
     // Latch character and attribute data from VRAM
@@ -142,7 +142,7 @@ module hgc_pixel(
     end
 
     // Applies video attributes, generates final video
-    hgc_attrib attrib (
+    mda_attrib attrib (
         .clk(clk),
         .att_byte(attr_byte_del),
         .row_addr(row_addr),

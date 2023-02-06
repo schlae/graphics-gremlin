@@ -7,7 +7,7 @@
 // Commons, PO Box 1866, Mountain View, CA 94042, USA.
 //
 `default_nettype none
-module hgc(
+module mda(
     // Clocks
     input clk,
 
@@ -34,7 +34,7 @@ module hgc(
     output intensity
     );
 
-    parameter HGC_70HZ = 1;
+    parameter MDA_70HZ = 1;
     parameter BLINK_MAX = 0;
 
     wire crtc_cs;
@@ -113,7 +113,7 @@ module hgc(
         if (bus_mem_cs & ~bus_memr_l) begin
             bus_int_out <= bus_out_mem;
         end else if (status_cs & ~bus_ior_l) begin
-            bus_int_out <= hgc_status_reg;
+            bus_int_out <= mda_status_reg;
         end else if (crtc_cs & ~bus_ior_l & (bus_a[0] == 1)) begin
             bus_int_out <= bus_out_crtc;
         end else begin
@@ -131,10 +131,10 @@ module hgc(
     assign hgc_status_reg = {vsync_l, 3'b111, video, 2'b00, hsync_int};
 
     // Hercules mode control register (write only)
-    assign grph_page = hgc_control_reg[7];
-    assign blink_enabled = hgc_control_reg[5];
-    assign video_enabled = hgc_control_reg[3];
-    assign grph_mode = hgc_control_reg[1];
+    assign grph_page = mda_control_reg[7];
+    assign blink_enabled = mda_control_reg[5];
+    assign video_enabled = mda_control_reg[3];
+    assign grph_mode = mda_control_reg[1];
 
     // Hsync only present when video is enabled
     assign hsync = video_enabled & hsync_int;
@@ -160,7 +160,7 @@ module hgc(
         .read(~bus_ior_synced_l),
         .bus(bus_d),
         .bus_out(bus_out_crtc),
-        .lock(HGC_70HZ == 1),
+        .lock(MDA_70HZ == 1),
         .hsync(hsync_int),
         .vsync(vsync_l),
         .display_enable(display_enable),
@@ -169,7 +169,7 @@ module hgc(
         .row_addr(row_addr)
     );
 
-    if (HGC_70HZ) begin
+    if (MDA_70HZ) begin
         defparam crtc.H_TOTAL = 8'd99;
         defparam crtc.H_DISP = 8'd80;
         defparam crtc.H_SYNCPOS = 8'd82;
@@ -196,7 +196,7 @@ module hgc(
     end
 
     // Interface to video SRAM chip
-    hgc_vram video_buffer (
+    mda_vram video_buffer (
         .clk(clk),
         .isa_addr({3'b000, bus_a[15:0]}),
         .isa_din(bus_d),
@@ -212,10 +212,10 @@ module hgc(
         .isa_op_enable(isa_op_enable)
     );
 
-    defparam video_buffer.HGC_70HZ = HGC_70HZ;
+    defparam video_buffer.MDA_70HZ = MDA_70HZ;
 
     // Sequencer state machine
-    hgc_sequencer sequencer (
+    mda_sequencer sequencer (
         .clk(clk),
         .clk_seq(clkdiv),
         .vram_read(vram_read),
@@ -229,10 +229,10 @@ module hgc(
         .grph_mode(grph_mode)
     );
 
-    defparam sequencer.HGC_70HZ = HGC_70HZ;
+    defparam sequencer.MDA_70HZ = MDA_70HZ;
 
     // Pixel pusher
-    hgc_pixel pixel (
+    mda_pixel pixel (
         .clk(clk),
         .clk_seq(clkdiv),
         .vram_data(ram_1_d),

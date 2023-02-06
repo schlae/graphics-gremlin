@@ -7,7 +7,7 @@
 // Commons, PO Box 1866, Mountain View, CA 94042, USA.
 //
 `default_nettype none
-module hgc_attrib(
+module mda_attrib(
     input clk,
     input[7:0] att_byte,
     input[4:0] row_addr,

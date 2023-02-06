@@ -32,7 +32,7 @@ module cga_vram(
     output ram_we_l
     );
 
-    parameter HGC_70HZ = 0;
+    parameter MDA_70HZ = 0;
 
     reg[19:0] op_addr = 20'd0;
     reg[7:0] ram_write_data = 8'd0;
