@@ -2,19 +2,19 @@
 
 (Click here for the [main README](https://github.com/schlae/graphics-gremlin/blob/main/README.md))
 
-The FPGA code is divided into two major sets of files, those for CGA graphics and those for HGC graphics. At some point I'll tidy up and make a nice organized directory tree, but for now they're all in the same place.
+The FPGA code is divided into two major sets of files, those for CGA graphics and those for MDA/HGC graphics. At some point I'll tidy up and make a nice organized directory tree, but for now they're all in the same place.
 
-* hgc\_top.v: The top level file instantiating the HGC graphics logic
-* hgc70\_top.v: An alternative top level file for VGA compatible HGC graphics
-* hgc.v: Implements HGC ISA interface, IO registers and instantiates the CRTC, SRAM interface, sequencer, and pixel engine
+* mda\_top.v: The top level file instantiating the MDA/HGC graphics logic
+* mda70\_top.v: An alternative top level file for VGA compatible MDA/HGC graphics
+* mda.v: Implements MDA/HGC ISA interface, IO registers and instantiates the CRTC, SRAM interface, sequencer, and pixel engine
 * crtc6845.v: This is my mostly-accurate recreation of the old Motorola 6845 CRT controller chip. It generates all the sync timings as well as the character and row addresses. There are probably slight differences between it and the real thing.
-* hgc\_sequencer.v: Controls timing across the entire card, deciding when to fetch SRAM data, look up character bits from the character ROM, and allow ISA bus access to the SRAM
-* hgc\_vram.v: Implements the state machine to arbitrate ISA bus and pixel engine access to the video ram (external SRAM)
-* hgc\_pixel.v: This is the pixel engine. It takes data coming from the SRAM, looks up the pixels in the character ROM, and shifts the data out one pixel at a time. 
-* hgc\_attrib.v: The attribute generator applies video attributes to the raw pixel data, including brightness, underline, inverse video, blinking. It also applies the blinking cursor.
-* hgc\_vgaport.v: This module turns the digital HGC video signals into numbers to drive the resistor ladder DAC connected to the VGA port. If you (gasp) dislike amber monochrome monitors, then you can hack this code to make it green or white.
+* mda\_sequencer.v: Controls timing across the entire card, deciding when to fetch SRAM data, look up character bits from the character ROM, and allow ISA bus access to the SRAM
+* mda\_vram.v: Implements the state machine to arbitrate ISA bus and pixel engine access to the video ram (external SRAM)
+* mda\_pixel.v: This is the pixel engine. It takes data coming from the SRAM, looks up the pixels in the character ROM, and shifts the data out one pixel at a time. 
+* mda\_attrib.v: The attribute generator applies video attributes to the raw pixel data, including brightness, underline, inverse video, blinking. It also applies the blinking cursor.
+* mda\_vgaport.v: This module turns the digital MDA video signals into numbers to drive the resistor ladder DAC connected to the VGA port. If you (gasp) dislike amber monochrome monitors, then you can hack this code to make it green or white.
 
-CGA graphics logic is similar to HGC and shares the same crtc6845.v logic, but the cards are different enough that I couldn't share more.
+CGA graphics logic is similar to MDA/HGC and shares the same crtc6845.v logic, but the cards are different enough that I couldn't share more.
 * cga\_top.v: Instantiates top level CGA logic.
 * cga.v: Implements the ISA bus interface, CGA control registers, wait state generator, and most of the other CGA modules
 * cga\_sequencer.v: Generates most of the timing signals used on the card, including memory fetches and pixel engine timing.
@@ -26,7 +26,7 @@ CGA graphics logic is similar to HGC and shares the same crtc6845.v logic, but t
 * cga\_vgaport.v: This module takes RGBI digital video from the scan doubler and turns it into numbers that drive the resistor ladder DAC connected to the VGA port. It produces CGA brown instead of dark yellow.
 
 Other miscellaneous files include:
-* cga.hex and hgc.hex: character ROM
+* cga.hex and mda.hex: character ROM
 * gremlin.pcf: The pin constraints file that determines what signals are tied to what pins on the FPGA
 * isavideo\_t.v: A sloppy test bench that I used to validate and troubleshoot the rest of the logic.
 * is61c5128\_t.v: A behavorial Verilog model of the SRAM chip.

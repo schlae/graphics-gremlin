@@ -1,12 +1,12 @@
 # The Graphics Gremlin - a Retro ISA Video Card
 
-The Graphics Gremlin is an FPGA-based ISA video card specifically designed to emulate certain old video standards. This initial release emulates the original IBM PC hercules graphics card (HGC) as well as the original IBM color graphics adapter (CGA). Since the logic is defined by the bitstream loaded into the FPGA, new emulations may be available in the future to support other video standards.
+The Graphics Gremlin is an FPGA-based ISA video card specifically designed to emulate certain old video standards. This initial release emulates the original IBM PC monochrome graphics adapter (MDA) and the Hercules Graphics Mode (HGC), as well as the original IBM color graphics adapter (CGA). Since the logic is defined by the bitstream loaded into the FPGA, new emulations may be available in the future to support other video standards.
 
 ![Graphics Gremlin PCB photo](https://github.com/schlae/graphics-gremlin/blob/main/images/gremlin.jpg)
 
-But why emulate an old video card when they are still fairly easy to find online? Cards aren't hard to find, but monitors that can sync to the unusual frequencies used by HGC (18KHz) and CGA (15KHz) are much harder to find, and these frequencies are rarely supported by modern LCD monitors or video capture hardware.
+But why emulate an old video card when they are still fairly easy to find online? Cards aren't hard to find, but monitors that can sync to the unusual frequencies used by MDA/HGC (18KHz) and CGA (15KHz) are much harder to find, and these frequencies are rarely supported by modern LCD monitors or video capture hardware.
 
-For both HGC and CGA, the Graphics Gremlin has a VGA port that can deliver video running at standard (31KHz) frequencies that are well supported by LCD monitors, VGA-to-HDMI converters, and USB capture devices.
+For both MDA/HGC and CGA, the Graphics Gremlin has a VGA port that can deliver video running at standard (31KHz) frequencies that are well supported by LCD monitors, VGA-to-HDMI converters, and USB capture devices.
 
 Here are the design files. The BOM includes Mouser Electronics parts numbers for everything except for the 0.1" headers which are typically cut to length anyway.
 
@@ -88,18 +88,18 @@ The bitstream is selected using switches 3 and 4:
 
 | 3      | 4      | Description  | Default |
 | ------ | ------ | ------------ | ------- |
-| open   | open   | Bitstream 0  | HGC (VGA compatible signal) |
-| open   | closed | Bitstream 1  | HGC (MDA monitors only) |
+| open   | open   | Bitstream 0  | MDA (VGA compatible signal) |
+| open   | closed | Bitstream 1  | MDA (MDA monitors only) |
 | closed | open   | Bitstream 2  | CGA (both VGA and CGA compatible signals) |
 | closed | closed | Bitstream 3  | Not used |
 
-For example, if you want to use HGC with a VGA monitor, set switches 3 and 4
+For example, if you want to use MDA/HGC with a VGA monitor, set switches 3 and 4
 to the open (up) position. (CGA has support for both VGA and CGA monitors built in since it implements a line doubler.)
 
 The remaining two switches have a function that is bitstream-dependent.
 
-| Switch | HGC (VGA comp.) | HGC | CGA |
-| ------ | --------------- | --- | --- |
+| Switch | MDA/HGC (VGA comp.) | MDA/HGC | CGA |
+| ------ | ------------------- | ------- | --- |
 | 1      | Not used | Not used | closed=composite mode. open=VGA mode |
 | 2      | Not used | Not used | closed=thin font. open=normal font |
 
@@ -125,18 +125,18 @@ Unlike the namesake video cards of old, the FPGA comes up with the internal card
 
 Checking these first can help you narrow down the source of the problem.
 
-To confirm proper operation on the ISA bus, it's helpful to set up a PC with a VGA card (or CGA card) and the Graphics Gremlin configured for HGC. These can coexist on the same PC.
+To confirm proper operation on the ISA bus, it's helpful to set up a PC with a VGA card (or CGA card) and the Graphics Gremlin configured for MDA/HGC. These can coexist on the same PC.
 
-Boot up the PC and run the DOS DEBUG program. Then see if you can access the CRTC registers. Unlike the original HGC card, these can be read back. Note: if you use the VGA compatible HGC mode, then these registers cannot be written to.
+Boot up the PC and run the DOS DEBUG program. Then see if you can access the CRTC registers. Unlike the original MDA/HGC card, these can be read back. Note: if you use the VGA compatible MDA/HGC mode, then these registers cannot be written to.
 
 ```
 o 3b4 0
 i 3b5
 ```
 
-This should return a number that is not 0 or FF. (The exact number depends on which HGC bitstream you are using).
+This should return a number that is not 0 or FF. (The exact number depends on which MDA/HGC bitstream you are using).
 
-If that works, then check to see if you can read and write the HGC video memory area:
+If that works, then check to see if you can read and write the MDA/HGC video memory area:
 
 `e b000:0000 55 aa 55 aa`...
 
@@ -155,13 +155,13 @@ In general, use a logical process of elimination to find where the fault (or fau
 
 ## Emulation Accuracy
 
-The logic for both the HGC and CGA cards is as close as I could get it to match the schematics available in the technical reference manuals, with two exceptions. The VRAM interface is specific to the 8-bit SRAM chip that I am using instead of the 16-bit SRAM on the original HGC or the 16-bit DRAM used on the CGA, so it had to be quite different from the originals. As a result, the sequencer state machine had to be designed from scratch. There are some other minor differences mostly to support the nonstandard VGA-compatible signal outputs.
+The logic for both the MDA/HGC and CGA cards is as close as I could get it to match the schematics available in the technical reference manuals, with two exceptions. The VRAM interface is specific to the 8-bit SRAM chip that I am using instead of the 16-bit SRAM on the original MDA/HGC or the 16-bit DRAM used on the CGA, so it had to be quite different from the originals. As a result, the sequencer state machine had to be designed from scratch. There are some other minor differences mostly to support the nonstandard VGA-compatible signal outputs.
 
 Accuracy is a work in progress. Certain demos, like 8088MPH, that require cycle-accurate operation on a 4.77MHz PC, don't work 100% correctly. The causes of this aren't yet fully understood.
 
 ## Future Plans
 
-Although the card supports just HGC and CGA, I'd like to support other video standards in the future. EGA and even VGA would be nice, but there are two huge challenges associated with that: they use custom gate array chips and they also use a 32-bit memory bus. This means I would need to quadruple the pixel clock to produce four 8-bit fetches from the SRAM. Due to this bus bandwidth limitation, Super VGAs are totally off the table.
+Although the card supports just MDA/HGC and CGA, I'd like to support other video standards in the future. EGA and even VGA would be nice, but there are two huge challenges associated with that: they use custom gate array chips and they also use a 32-bit memory bus. This means I would need to quadruple the pixel clock to produce four 8-bit fetches from the SRAM. Due to this bus bandwidth limitation, Super VGAs are totally off the table.
 
 There are also some neat non-graphics uses for the card. With some clever programming, the card could be turned into a memory card to extend the RAM in some of the older IBM PC and XT machines (XMS RAM). It could also emulate an expanded memory card for machines that can't run EMM386. BIOS extension ROMs stored in the NOR flash chip could also be mapped to ROM areas in the PC memory map, which might also be useful.
 
