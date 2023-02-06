@@ -6,7 +6,7 @@
 // http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
 // Commons, PO Box 1866, Mountain View, CA 94042, USA.
 //
-`default_nettype wire
+`default_nettype none
 module cga_pixel(
     input clk,
     input[4:0] clk_seq,

@@ -6,7 +6,7 @@
 // http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
 // Commons, PO Box 1866, Mountain View, CA 94042, USA.
 //
-`default_nettype wire
+`default_nettype none
 module cga(
     // Clocks
     input clk,
@@ -236,9 +236,9 @@ module cga(
     assign mode_640 = cga_control_reg[4]; // 1=640x200 mode, 0=others
     assign blink_enabled = cga_control_reg[5];
 
-	assign tandy_border_en = tandy_modesel[2];
-	assign tandy_color_4 = tandy_modesel[3];
-	assign tandy_color_16 = tandy_modesel[4];
+	wire tandy_border_en = tandy_modesel[2];
+	wire tandy_color_4 = tandy_modesel[3];
+	wire tandy_color_16 = tandy_modesel[4];
 
     assign hsync = hsync_int;
     

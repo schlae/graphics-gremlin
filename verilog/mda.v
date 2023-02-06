@@ -113,7 +113,7 @@ module mda(
         if (bus_mem_cs & ~bus_memr_l) begin
             bus_int_out <= bus_out_mem;
         end else if (status_cs & ~bus_ior_l) begin
-            bus_int_out <= mda_status_reg;
+            bus_int_out <= hgc_status_reg;
         end else if (crtc_cs & ~bus_ior_l & (bus_a[0] == 1)) begin
             bus_int_out <= bus_out_crtc;
         end else begin
@@ -131,10 +131,10 @@ module mda(
     assign hgc_status_reg = {vsync_l, 3'b111, video, 2'b00, hsync_int};
 
     // Hercules mode control register (write only)
-    assign grph_page = mda_control_reg[7];
-    assign blink_enabled = mda_control_reg[5];
-    assign video_enabled = mda_control_reg[3];
-    assign grph_mode = mda_control_reg[1];
+    assign grph_page = hgc_control_reg[7];
+    assign blink_enabled = hgc_control_reg[5];
+    assign video_enabled = hgc_control_reg[3];
+    assign grph_mode = hgc_control_reg[1];
 
     // Hsync only present when video is enabled
     assign hsync = video_enabled & hsync_int;
