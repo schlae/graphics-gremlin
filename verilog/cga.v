@@ -75,7 +75,6 @@ module cga(
     wire grph_mode;
     wire bw_mode;
     wire mode_640;
-//    wire tandy_16_mode;
     wire video_enabled;
     wire blink_enabled;
 
@@ -240,8 +239,6 @@ module cga(
 	assign tandy_border_en = tandy_modesel[2];
 	assign tandy_color_4 = tandy_modesel[3];
 	assign tandy_color_16 = tandy_modesel[4];
-
-//    assign tandy_16_mode = 1'b1;
 
     assign hsync = hsync_int;
     
