@@ -1,0 +1,163 @@
+#No modulation
+$C0,1
+
+#Only operator 1 of channel 0 used (slot 3)
+$23,1
+# KSL=1
+$43,40
+$63,F0
+$83,F0
+
+#Sweep
+# block 0
+$A0,6B
+$B0,21
+wait 500
+$A0,98
+$B0,21
+wait 500
+$A0,CA
+$B0,21
+wait 500
+$A0,2
+$B0,22
+wait 500
+$A0,41
+$B0,22
+wait 500
+$A0,87
+$B0,22
+wait 500
+# block 1
+$A0,6B
+$B0,25
+wait 500
+$A0,98
+$B0,25
+wait 500
+$A0,CA
+$B0,25
+wait 500
+$A0,2
+$B0,26
+wait 500
+$A0,41
+$B0,26
+wait 500
+$A0,87
+$B0,26
+wait 500
+# block 2
+$A0,6B
+$B0,29
+wait 500
+$A0,98
+$B0,29
+wait 500
+$A0,CA
+$B0,29
+wait 500
+$A0,2
+$B0,2A
+wait 500
+$A0,41
+$B0,2A
+wait 500
+$A0,87
+$B0,2A
+wait 500
+# block 3
+$A0,6B
+$B0,2D
+wait 500
+$A0,98
+$B0,2D
+wait 500
+$A0,CA
+$B0,2D
+wait 500
+$A0,2
+$B0,2E
+wait 500
+$A0,41
+$B0,2E
+wait 500
+$A0,87
+$B0,2E
+wait 500
+# block 4
+$A0,6B
+$B0,31
+wait 500
+$A0,98
+$B0,31
+wait 500
+$A0,CA
+$B0,31
+wait 500
+$A0,2
+$B0,32
+wait 500
+$A0,41
+$B0,32
+wait 500
+$A0,87
+$B0,32
+wait 500
+# block 5
+$A0,6B
+$B0,35
+wait 500
+$A0,98
+$B0,35
+wait 500
+$A0,CA
+$B0,35
+wait 500
+$A0,2
+$B0,36
+wait 500
+$A0,41
+$B0,36
+wait 500
+$A0,87
+$B0,36
+wait 500
+# block 6
+$A0,6B
+$B0,39
+wait 500
+$A0,98
+$B0,39
+wait 500
+$A0,CA
+$B0,39
+wait 500
+$A0,2
+$B0,3A
+wait 500
+$A0,41
+$B0,3A
+wait 500
+$A0,87
+$B0,3A
+wait 500
+# block 7
+$A0,6B
+$B0,3D
+wait 500
+$A0,98
+$B0,3D
+wait 500
+$A0,CA
+$B0,3D
+wait 500
+$A0,2
+$B0,3E
+wait 500
+$A0,41
+$B0,3E
+wait 500
+$A0,87
+$B0,3E
+wait 500

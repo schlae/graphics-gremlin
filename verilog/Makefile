@@ -8,8 +8,8 @@
 #
 
 PROJ = isavideo
-IMAGES = mda70_top mda_top cga_top
-SOURCES = mda70_top.v mda_top.v mda.v crtc6845.v mda_vgaport.v mda_vram.v mda_attrib.v mda_sequencer.v mda_pixel.v cga_top.v cga.v cga_vgaport.v cga_sequencer.v cga_pixel.v cga_attrib.v cga_vram.v cga_composite.v cga_scandoubler.v
+IMAGES = mda70_top mda_top cga_top sound_top
+SOURCES = mda70_top.v mda_top.v mda.v crtc6845.v mda_vgaport.v mda_vram.v mda_attrib.v mda_sequencer.v mda_pixel.v cga_top.v cga.v cga_vgaport.v cga_sequencer.v cga_pixel.v cga_attrib.v cga_vram.v cga_composite.v cga_scandoubler.v sound_top.v sound.v ./jtopl/hdl/jtopl2.v ./jtopl/hdl/jtopl.v ./jtopl/hdl/jtopl_acc.v ./jtopl/hdl/jtopl_op.v ./jtopl/hdl/jtopl_eg.v ./jtopl/hdl/jtopl_pg.v ./jtopl/hdl/jtopl_lfo.v ./jtopl/hdl/jtopl_timers.v ./jtopl/hdl/jtopl_mmr.v ./jtopl/hdl/jtopl_reg.v ./jtopl/hdl/jtopl_div.v ./jtopl/hdl/jtopl_sh_rst.v ./jtopl/hdl/jtopl_pg_comb.v ./jtopl/hdl/jtopl_noise.v ./jtopl/hdl/jtopl_sh.v ./jtopl/hdl/jtopl_eg_comb.v ./jtopl/hdl/jtopl_eg_cnt.v ./jtopl/hdl/jtopl_exprom.v ./jtopl/hdl/jtopl_logsin.v ./jtopl/hdl/jtopl_single_acc.v ./jtopl/hdl/jtopl_eg_final.v ./jtopl/hdl/jtopl_eg_pure.v ./jtopl/hdl/jtopl_eg_step.v ./jtopl/hdl/jtopl_eg_ctrl.v ./jtopl/hdl/jtopl_pg_rhy.v ./jtopl/hdl/jtopl_pg_sum.v ./jtopl/hdl/jtopl_pg_inc.v ./jtopl/hdl/jtopl_pm.v ./jtopl/hdl/jtopl_reg_ch.v ./jtopl/hdl/jtopl_csr.v ./jtopl/hdl/jtopl_slot_cnt.v 
 PIN_DEF =  gremlin.pcf
 DEVICE = hx8k
 ODIR = build

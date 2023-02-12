@@ -1,0 +1,22 @@
+#No modulation
+$C0,1
+
+#Only operator 1 of channel 0 used (slot 3)
+#AM enabled
+$23,81
+# KSL=3
+$43,C0
+$63,F0
+$83,F0
+
+$A0,20
+$B0,20
+wait 200
+
+# 1dB default
+$B0,2A
+wait 4000
+
+# 4.8dB Max
+$BD,80
+wait 4000

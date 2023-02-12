@@ -1,0 +1,33 @@
+#Attack rate
+$60,F0
+$63,00
+# Decay rate
+$80,F0
+
+# TL
+$40,18
+
+#FB
+$C0,1
+# Issue a key-on
+$A0,F0
+$B0,2F
+
+#Change FB to different values
+wait 500
+$C0,3
+wait 500
+$C0,3
+wait 500
+$C0,5
+wait 500
+$C0,7
+wait 500
+$C0,9
+wait 500
+$C0,B
+wait 500
+$C0,D
+wait 500
+$C0,F
+wait 500

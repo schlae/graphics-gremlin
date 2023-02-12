@@ -91,10 +91,12 @@ The bitstream is selected using switches 3 and 4:
 | open   | open   | Bitstream 0  | MDA (VGA compatible signal) |
 | open   | closed | Bitstream 1  | MDA (MDA monitors only) |
 | closed | open   | Bitstream 2  | CGA (both VGA and CGA compatible signals) |
-| closed | closed | Bitstream 3  | Not used |
+| closed | closed | Bitstream 3  | Sound (Adlib) |
 
 For example, if you want to use MDA/HGC with a VGA monitor, set switches 3 and 4
 to the open (up) position. (CGA has support for both VGA and CGA monitors built in since it implements a line doubler.)
+
+Bitstream 3 is reserved for exclusive use with sound cards via the RCA connector, initially Adlib has been implemented.
 
 The remaining two switches have a function that is bitstream-dependent.
 
@@ -166,8 +168,6 @@ Although the card supports just MDA/HGC and CGA, I'd like to support other video
 There are also some neat non-graphics uses for the card. With some clever programming, the card could be turned into a memory card to extend the RAM in some of the older IBM PC and XT machines (XMS RAM). It could also emulate an expanded memory card for machines that can't run EMM386. BIOS extension ROMs stored in the NOR flash chip could also be mapped to ROM areas in the PC memory map, which might also be useful.
 
 The card could act as a fancy POST card, perhaps even with a mini bus analyzer built in (using a connected VGA monitor).
-
-It's even theoretically possible to implement a sound card using the composite video jack (and 7-bit resistor DAC) as the sound output.
 
 ## License
 This work is licensed under a Creative Commons Attribution-ShareAlike 4.0
