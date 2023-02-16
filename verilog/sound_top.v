@@ -76,7 +76,7 @@ module sound_top(
         .bus_out(bus_out),
         .bus_dir(bus_dir),
         .bus_aen(bus_aen),
-        .opl2_snd_e(snd)
+        .snd(snd)
     );
 
 endmodule

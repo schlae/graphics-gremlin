@@ -22,7 +22,7 @@ module sound(
     output bus_dir,
     input bus_aen,
     output bus_rdy = 1,
-    output [6:0] opl2_snd_e
+    output [6:0] snd
     );
     
     reg bus_ior_synced_l;
@@ -132,7 +132,7 @@ module sound(
         sndval <= sndval - sndval[31:7] + (sndsign << 25);
     end
 
-    assign opl2_snd_e = {7{sndsign}};
+    assign snd = {7{sndsign}};
     
     wire [7:0] jtopl2_dout;
     
