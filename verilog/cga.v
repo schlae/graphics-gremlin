@@ -330,7 +330,7 @@ module cga(
     // Just use the MDA VRAM interface (no snow)
     mda_vram video_buffer (
         .clk(clk),
-        .isa_addr(tandy_mode ? video_mem_cs ? {4'b0000, bus_a[14:0]} : tandy_page_data[3] ? {3'b000, tandy_page_data[5:3], bus_a[13:0]} : {2'b00, tandy_page_data[5:4], bus_a[14:0]} : {4'b0000, bus_a[14:0]}),
+        .isa_addr(tandy_mode ? video_mem_cs ? {4'b0000, bus_a[14:0]} : tandy_page_data[3] ? {3'b000, tandy_page_data[5:3], bus_a[13:0]} : {2'b00, tandy_page_data[5:4], bus_a[14:0]} : {5'b00000, bus_a[13:0]}),
         .isa_din(bus_d),
         .isa_dout(bus_out_mem),
         .isa_read((bus_mem_cs | video_mem_cs) & ~bus_memr_synced_l),
