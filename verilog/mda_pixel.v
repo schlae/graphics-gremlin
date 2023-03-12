@@ -22,11 +22,13 @@ module mda_pixel(
     input blink,
     input video_enabled,
     output video,
-    output intensity
+    output intensity,
+    input grph_mode
     );
 
     reg[7:0] attr_byte;
     reg[7:0] char_byte;
+    reg[7:0] char_byte_del;
     reg[7:0] char_byte_old;
     reg[7:0] attr_byte_del;
     reg[7:0] charbits;
@@ -36,6 +38,8 @@ module mda_pixel(
     reg pix_delay;
     reg ninth_column;
     wire[11:0] rom_addr;
+    reg[1:0] pix_bits;
+    wire pix_750;
 
     // Character ROM
     reg[7:0] char_rom[0:4095];
@@ -51,7 +55,29 @@ module mda_pixel(
             char_byte_old <= char_byte;
         end
         if (vram_read_att) begin
-            attr_byte <= vram_data; //ES testing
+            attr_byte <= vram_data; //ES testing				
+        end
+    end
+	 
+    always @ (posedge clk)
+        char_byte_del <= char_byte;
+		  
+    always @ (*)
+    begin
+        if (video_enabled) begin
+            case ((clk_seq[4:2] + 3'd7))
+                3'd0: pix_bits <= char_byte_del[7:6];
+                3'd1: pix_bits <= char_byte_del[5:4];
+                3'd2: pix_bits <= char_byte_del[3:2];
+                3'd3: pix_bits <= char_byte_del[1:0];
+                3'd4: pix_bits <= attr_byte[7:6];
+                3'd5: pix_bits <= attr_byte[5:4];
+                3'd6: pix_bits <= attr_byte[3:2];
+                3'd7: pix_bits <= attr_byte[1:0];
+                default: pix_bits <= 2'b0;
+            endcase
+        end else begin
+            pix_bits <= 2'b0;
         end
     end
 
@@ -93,6 +119,12 @@ module mda_pixel(
         endcase
     end
 
+    // In graphics mode, alternate between the two bits from
+    // the shift register outputs at specific times in the sequence
+    wire[2:0] tmp_clk_seq;
+    assign tmp_clk_seq = clk_seq + 3'd7;
+    assign pix_750 = tmp_clk_seq[1] ? pix_bits[0] : pix_bits[1];
+
     // For some characters, duplicate the 8th column as the 9th column
     // (Mainly line drawing characters so they span the whole cell)
     always @ (posedge clk)
@@ -120,7 +152,10 @@ module mda_pixel(
         .cursor(cursor_del[1]),
         .pix_in(pix_delay),
         .pix_out(video),
-        .intensity_out(intensity)
+        .intensity_out(intensity),
+        .grph_mode(grph_mode),
+        .pix_750(pix_750)
+		  
     );
 
 endmodule

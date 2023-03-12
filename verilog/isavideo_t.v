@@ -33,9 +33,9 @@ module isavideo_t;
     wire ram_we_l;
     wire[18:0] ram_a;
     wire[7:0] ram_d;
-    // Use isavideo here for MDA, cga_top for CGA.
+    // Use isavideo here for HGC, cga_top for CGA.
     cga_top dut (
-//        .clk_10m(clk), // for MDA
+//        .clk_10m(clk), // for HGC
         .clk_14m318(clk), // for CGA
 
         .bus_a(bus_a),

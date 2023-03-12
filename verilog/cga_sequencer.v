@@ -21,7 +21,8 @@ module cga_sequencer(
     output isa_op_enable,
     output hclk,
     output lclk,
-    input tandy_16_gfx
+    input tandy_16_gfx,
+    input tandy_color_16
     );
 
     wire crtc_clk_int;
@@ -51,7 +52,8 @@ module cga_sequencer(
     assign vram_read_char = (clkdiv == 5'd2) || (hres_mode ? (clkdiv == 5'd18) : 0);
     assign vram_read_att = (clkdiv == 5'd3) || (hres_mode ? (clkdiv == 5'd19) : 0);
     assign charrom_read = (clkdiv == 5'd3) || (hres_mode ? (clkdiv == 5'd19) : 0);// 3 and 19?
-    assign disp_pipeline = (clkdiv == (tandy_16_gfx ? 5'd7 : 5'd4)) || (hres_mode ? (clkdiv == (tandy_16_gfx ? 5'd23 : 5'd20)) : 0);
+    assign disp_pipeline = (clkdiv == (tandy_color_16 ? 5'd9 : tandy_16_gfx ? 5'd7 : 5'd4)) || (hres_mode ? (clkdiv == (tandy_16_gfx ? 5'd23 : 5'd20)) : 0);
+	 
     assign crtc_clk = crtc_clk_int;
     assign clk_seq = clkdiv;
     // Leave a gap of at least 2 cycles between the end of ISA operation and

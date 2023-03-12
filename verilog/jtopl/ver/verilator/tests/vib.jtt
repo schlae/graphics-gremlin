@@ -1,0 +1,28 @@
+#No modulation
+$C0,1
+
+#Only operator 1 of channel 0 used (slot 3)
+#PM enabled
+$23,41
+$43,00
+$63,F0
+$83,F0
+
+$A0,20
+$B0,20
+wait 200
+
+#PM disabled
+$23,01
+$B0,2A
+wait 4000
+
+#PM enabled
+$23,41
+# 7 cents default
+$B0,2A
+wait 4000
+
+# 14 cents Max
+$BD,40
+wait 4000

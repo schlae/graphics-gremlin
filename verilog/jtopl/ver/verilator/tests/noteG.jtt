@@ -1,0 +1,19 @@
+#Attack rate
+$60,F0
+# Decay rate
+$80,F4
+wait 10
+
+# no FB, No FM modulation
+$C0,1
+# Set Mul to 1
+$20,21
+
+# Issue a key-on
+$A0,02
+$B0,32
+wait 2000
+
+# Move one octave down
+$B0,12
+wait 1000

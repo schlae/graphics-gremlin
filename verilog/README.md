@@ -2,11 +2,11 @@
 
 (Click here for the [main README](https://github.com/schlae/graphics-gremlin/blob/main/README.md))
 
-The FPGA code is divided into two major sets of files, those for CGA graphics and those for MDA graphics. At some point I'll tidy up and make a nice organized directory tree, but for now they're all in the same place.
+The FPGA code is divided into two major sets of files, those for CGA graphics and those for MDA/HGC graphics. At some point I'll tidy up and make a nice organized directory tree, but for now they're all in the same place.
 
-* mda\_top.v: The top level file instantiating the MDA graphics logic
-* mda70\_top.v: An alternative top level file for VGA compatible MDA graphics
-* mda.v: Implements MDA ISA interface, IO registers and instantiates the CRTC, SRAM interface, sequencer, and pixel engine
+* mda\_top.v: The top level file instantiating the MDA/HGC graphics logic
+* mda70\_top.v: An alternative top level file for VGA compatible MDA/HGC graphics
+* mda.v: Implements MDA/HGC ISA interface, IO registers and instantiates the CRTC, SRAM interface, sequencer, and pixel engine
 * crtc6845.v: This is my mostly-accurate recreation of the old Motorola 6845 CRT controller chip. It generates all the sync timings as well as the character and row addresses. There are probably slight differences between it and the real thing.
 * mda\_sequencer.v: Controls timing across the entire card, deciding when to fetch SRAM data, look up character bits from the character ROM, and allow ISA bus access to the SRAM
 * mda\_vram.v: Implements the state machine to arbitrate ISA bus and pixel engine access to the video ram (external SRAM)
@@ -14,11 +14,11 @@ The FPGA code is divided into two major sets of files, those for CGA graphics an
 * mda\_attrib.v: The attribute generator applies video attributes to the raw pixel data, including brightness, underline, inverse video, blinking. It also applies the blinking cursor.
 * mda\_vgaport.v: This module turns the digital MDA video signals into numbers to drive the resistor ladder DAC connected to the VGA port. If you (gasp) dislike amber monochrome monitors, then you can hack this code to make it green or white.
 
-CGA graphics logic is similar to MDA and shares the same crtc6845.v logic, but the cards are different enough that I couldn't share more.
+CGA graphics logic is similar to MDA/HGC and shares the same crtc6845.v logic, but the cards are different enough that I couldn't share more.
 * cga\_top.v: Instantiates top level CGA logic.
 * cga.v: Implements the ISA bus interface, CGA control registers, wait state generator, and most of the other CGA modules
 * cga\_sequencer.v: Generates most of the timing signals used on the card, including memory fetches and pixel engine timing.
-* cga\_vram.v: Implements a very basic address MUX for the SRAM interface. This actually causes too much CGA snow, and should be improved using the MDA VRAM interface as a model.
+* cga\_vram.v: Implements a very basic address MUX for the SRAM interface. This actually causes too much CGA snow, and should be improved using the HGC VRAM interface as a model.
 * cga\_pixel.v: The CGA pixel engine takes data from the SRAM, does a character lookup (text mode only), and shifts the data out 1 or 2 bits at a time, depending on the video mode.
 * cga\_attrib.v: The attribute generator applies video attributes to the raw pixels data, including color, brightness, and blinking.
 * cga\_composite.v: Contains the flip flops used to generate NTSC composite color as well as new sync pulses. The output is a 7-bit signal passed off to the green DAC channel for the RCA jack on the card.

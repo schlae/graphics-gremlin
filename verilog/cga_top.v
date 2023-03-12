@@ -66,7 +66,7 @@ module cga_top(
     wire[7:0] bus_out;
 
     wire[3:0] video;
-    wire[3:0] vga_video;
+//    wire[3:0] vga_video;
 
     wire composite_on;
     wire thin_font;
@@ -123,7 +123,7 @@ module cga_top(
     // CGA digital to analog converter
     cga_vgaport vga (
         .clk(clk_main),
-        .video(vga_video),
+        .video(video),
         .red(vga_red),
         .green(vga_green),
         .blue(vga_blue)
@@ -135,6 +135,7 @@ module cga_top(
     assign blue = composite_on ? 6'd0 : vga_blue;
 
     assign vga_vsync = vsync;
+    assign vga_hsync = hsync;
 
     cga cga1 (
         .clk(clk_main),
@@ -152,10 +153,10 @@ module cga_top(
         .ram_a(ram_a),
         .ram_d(ram_d),
         .hsync(hsync),
-        .dbl_hsync(vga_hsync),
+//        .dbl_hsync(vga_hsync),
         .vsync(vsync),
         .video(video),
-        .dbl_video(vga_video),
+//        .dbl_video(vga_video),
         .comp_video(comp_video),
         .thin_font(thin_font)
     );

@@ -17,7 +17,8 @@ module mda_sequencer(
     output crtc_clk,
     output charrom_read,
     output disp_pipeline,
-    output isa_op_enable
+    output isa_op_enable,
+    input grph_mode
     );
 
     parameter MDA_70HZ = 0;
@@ -28,23 +29,41 @@ module mda_sequencer(
     // Sequencer: times internal operations
     always @ (posedge clk)
     begin
-        if (clkdiv == 5'd17) begin
-            clkdiv <= 5'd0;
-            crtc_clk_int <= 1'b1;
-        end else begin
-            clkdiv <= clkdiv + 1;
-            crtc_clk_int <= 1'b0;
-        end
+        if (grph_mode)
+            if (clkdiv == 5'd31) begin
+                clkdiv <= 5'd0;
+                crtc_clk_int <= 1'b1;
+            end else begin
+                clkdiv <= clkdiv + 1;
+                crtc_clk_int <= 1'b0;
+            end
+        else
+            if (clkdiv == 5'd17) begin
+                clkdiv <= 5'd0;
+                crtc_clk_int <= 1'b1;
+            end else begin
+                clkdiv <= clkdiv + 1;
+                crtc_clk_int <= 1'b0;
+            end
     end
 
     // Control signals based on the sequencer state
-    assign vram_read = ((clkdiv == 5'd1) || (clkdiv == 5'd2) || (clkdiv == 5'd3)
+    assign vram_read = grph_mode ? (clkdiv == 5'd1) || (clkdiv == 5'd2) || (clkdiv == 5'd3) ||
+                       (clkdiv == 5'd17) || (clkdiv == 5'd18) || (clkdiv == 5'd19) :
+                       ((clkdiv == 5'd1) || (clkdiv == 5'd2) || (clkdiv == 5'd3)
                         || (clkdiv == 5'd4));
-    assign vram_read_a0 = (clkdiv == 5'd3);
-    assign vram_read_char = (clkdiv == 5'd3);
-    assign vram_read_att = (clkdiv == 5'd4);
-    assign charrom_read = (clkdiv == 5'd1);
-    assign disp_pipeline = (clkdiv == 5'd4);
+
+    assign vram_read_a0 = grph_mode ? (clkdiv == 5'd2) || (clkdiv == 5'd18) :
+                          (clkdiv == 5'd3);
+
+    assign vram_read_char = grph_mode ? (clkdiv == 5'd2) || (clkdiv == 5'd18) :
+                            (clkdiv == 5'd3);
+
+    assign vram_read_att = grph_mode ? (clkdiv == 5'd3) || (clkdiv == 5'd19) :
+                           (clkdiv == 5'd4);
+
+    assign charrom_read = (clkdiv == 5'd1); // Only for MDA text
+    assign disp_pipeline = (clkdiv == 5'd4); // Only for MDA text
     assign crtc_clk = crtc_clk_int;
     assign clk_seq = clkdiv;
     // Leave a gap of at least 2 cycles between the end of ISA operation and

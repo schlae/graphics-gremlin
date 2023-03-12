@@ -27,7 +27,11 @@ module cga_attrib(
     input c1,
     input pix_640,
     input [3:0] pix_tandy,
-    output reg[3:0] pix_out
+    input [3:0] tandy_bordercol,
+    input tandy_color_4,
+    input tandy_color_16,
+    output reg[3:0] pix_out,
+    output wire overscan
     );
 
     reg blinkdiv;
@@ -67,18 +71,21 @@ module cga_attrib(
     // Determine mux A and mux B inputs for selecting output colors.
     assign mux_a = ~display_enable |
                    (grph_mode ?
-                        (tandy_16_mode ? 0 : (~(~mode_640 & (c0 | c1)))) :
+                   ((tandy_16_mode | tandy_color_16) ? 0 : (~(~mode_640 & (c0 | c1)))) :
                     ~alpha_dots);
     assign mux_b = grph_mode | ~display_enable;
 
     // Shutter closes when video is blanked during sync
-    assign shutter = (hsync | vsync) | (mode_640 ? ~(display_enable & pix_640) : 0);
+    assign shutter = (hsync | vsync) | ((mode_640 & ~tandy_color_4) ? ~(display_enable & pix_640) : 1'b0);
 
     // Blue palette selection bit
     assign selblue = bw_mode ? c0 : cga_color_reg[5];
 
-    assign active_area = tandy_16_mode ? pix_tandy : {cga_color_reg[4], c1, c0, selblue};
-
+	 assign active_area = tandy_color_4 ? {1'b0, c1, c0, 1'b0} :
+	 (tandy_16_mode | tandy_color_16) ? pix_tandy : {cga_color_reg[4], c1, c0, selblue};
+	 
+	 assign overscan = (mux_b & mux_a);
+    	 
     always @ (*)
     begin
         if (shutter) begin
@@ -88,7 +95,7 @@ module cga_attrib(
                 2'b00: pix_out <= att_fg; // Text foreground
                 2'b01: pix_out <= att_bg; // Text background
                 2'b10: pix_out <= active_area; // Graphics
-                2'b11: pix_out <= cga_color_reg[3:0]; // Overscan color
+                2'b11: pix_out <= (tandy_16_mode | tandy_color_16) ? tandy_bordercol : cga_color_reg[3:0]; // Overscan color
             endcase
         end
     end
