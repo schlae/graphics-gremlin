@@ -1,0 +1,37 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#(c) SnapEDA 2016 (snapeda.com)
+#This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) with Design Exception 1.0
+#
+# PJRAN1X1U04X
+#
+DEF PJRAN1X1U04X J 0 40 Y N 1 L N
+F0 "J" -200 200 50 H V L BNN
+F1 "PJRAN1X1U04X" -200 -250 50 H V L BNN
+F2 "SWITCHCRAFT_PJRAN1X1U04X" 0 0 50 H I L BNN
+F3 "" 0 0 50 H I L BNN
+F4 "Manufacturer recommendations" 0 0 50 H I L BNN "STANDARD"
+F5 "A" 0 0 50 H I L BNN "PARTREV"
+F6 "Switchcraft" 0 0 50 H I L BNN "MANUFACTURER"
+F7 "13.0mm" 0 0 50 H I L BNN "MAXIMUM_PACKAGE_HEIGHT"
+DRAW
+P 3 0 0 10 0 90 10 50 -10 50 f
+P 2 0 0 10 0 0 200 0 N
+P 2 0 0 10 0 0 0 100 N
+P 2 0 0 10 200 -100 -200 -100 N
+P 2 0 0 10 200 100 -50 100 N
+P 2 0 0 10 -200 -100 -200 -25 N
+P 2 0 0 10 -200 -25 -175 -25 N
+P 2 0 0 10 -175 -25 -175 150 N
+P 2 0 0 10 -175 150 -225 150 N
+P 2 0 0 10 -225 150 -225 -25 N
+P 2 0 0 10 -225 -25 -200 -25 N
+P 2 0 0 10 -50 100 -75 75 N
+P 2 0 0 10 -75 75 -100 100 N
+X ~ 2 300 100 100 L 40 40 0 0 P 
+X ~ 1 300 -100 100 L 40 40 0 0 P 
+X ~ 3 300 0 100 L 40 40 0 0 P 
+ENDDRAW
+ENDDEF
+#
+# End Library

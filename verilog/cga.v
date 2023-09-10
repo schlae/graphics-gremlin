@@ -35,6 +35,8 @@ module cga(
     output[3:0] video,
     output[3:0] dbl_video,
     output[6:0] comp_video,
+    output display_enable,
+    output dbl_display_enable,
 
     input thin_font
     );
@@ -73,7 +75,7 @@ module cga(
     wire vsync_l;
     wire cursor;
     wire[3:0] video;
-    wire display_enable;
+    //wire display_enable;
 
     // Two different clocks from the sequencer
     wire hclk;
@@ -373,8 +375,10 @@ module cga(
         .clk(clk),
         .line_reset(line_reset),
         .video(video),
+        .display_enable(display_enable),
         .dbl_hsync(dbl_hsync),
-        .dbl_video(dbl_video)
+        .dbl_video(dbl_video),
+        .dbl_display_enable(dbl_display_enable)
     );
 
 endmodule

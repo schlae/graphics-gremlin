@@ -1,13 +1,12 @@
 EESchema Schematic File Version 4
-LIBS:isavideo-cache
-EELAYER 29 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 5
+Sheet 2 6
 Title "ISA Bus Interface"
-Date ""
-Rev "2"
+Date "2021-08-09"
+Rev "2.1"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -361,7 +360,7 @@ Wire Bus Line
 Entry Wire Line
 	4250 2900 4350 2800
 $Comp
-L logic:74ALVC164245 U5
+L isavideo-rescue:74ALVC164245-logic U5
 U 1 1 60041863
 P 5450 4450
 F 0 "U5" H 6350 4650 50  0000 C CNN
@@ -635,7 +634,7 @@ Entry Wire Line
 Entry Wire Line
 	4750 3150 4850 3250
 $Comp
-L logic:74ALVC164245 U4
+L isavideo-rescue:74ALVC164245-logic U4
 U 1 1 600418F9
 P 5450 1450
 F 0 "U4" H 6350 1650 50  0000 C CNN
@@ -679,9 +678,11 @@ D1_5V
 Text Label 4950 2550 0    50   ~ 0
 D0_5V
 $Comp
-L connectors:Conn_ISA_8bit J5
+L isavideo-rescue:Conn_ISA_8bit-connectors J5
 U 1 1 6004190F
 P 2550 1300
+AR Path="/6004190F" Ref="J5"  Part="1" 
+AR Path="/5FFFC5DE/6004190F" Ref="J5"  Part="1" 
 F 0 "J5" H 3000 1467 50  0000 C CNN
 F 1 "Conn_ISA_8bit" H 3000 1376 50  0000 C CNN
 F 2 "Conn:BUS_PC_8BIT" H 3000 -1250 50  0001 C CNN
@@ -1048,7 +1049,7 @@ AR Path="/6043556F/61561F7A" Ref="C?"  Part="1"
 AR Path="/5FFFC5DE/61561F7A" Ref="C23"  Part="1" 
 F 0 "C23" H 2442 6146 50  0000 L CNN
 F 1 "1u" H 2442 6055 50  0000 L CNN
-F 2 "Passive:CAPC1608X100" H 2350 6100 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 2350 6100 50  0001 C CNN
 F 3 "~" H 2350 6100 50  0001 C CNN
 F 4 "810-CGA3E1X7R1C105AC" H -1650 -1100 50  0001 C CNN "Mouser"
 	1    2350 6100
@@ -1063,7 +1064,7 @@ AR Path="/6043556F/61561F80" Ref="C?"  Part="1"
 AR Path="/5FFFC5DE/61561F80" Ref="C24"  Part="1" 
 F 0 "C24" H 2792 6146 50  0000 L CNN
 F 1 "1u" H 2792 6055 50  0000 L CNN
-F 2 "Passive:CAPC1608X100" H 2700 6100 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 2700 6100 50  0001 C CNN
 F 3 "~" H 2700 6100 50  0001 C CNN
 F 4 "810-CGA3E1X7R1C105AC" H -1550 -1100 50  0001 C CNN "Mouser"
 	1    2700 6100
@@ -1132,7 +1133,7 @@ AR Path="/6043556F/6156FAFB" Ref="C?"  Part="1"
 AR Path="/5FFFC5DE/6156FAFB" Ref="C25"  Part="1" 
 F 0 "C25" H 3142 6146 50  0000 L CNN
 F 1 "1u" H 3142 6055 50  0000 L CNN
-F 2 "Passive:CAPC1608X100" H 3050 6100 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 3050 6100 50  0001 C CNN
 F 3 "~" H 3050 6100 50  0001 C CNN
 F 4 "810-CGA3E1X7R1C105AC" H -1500 -1100 50  0001 C CNN "Mouser"
 	1    3050 6100
@@ -1147,7 +1148,7 @@ AR Path="/6043556F/6156FB01" Ref="C?"  Part="1"
 AR Path="/5FFFC5DE/6156FB01" Ref="C26"  Part="1" 
 F 0 "C26" H 3492 6146 50  0000 L CNN
 F 1 "1u" H 3492 6055 50  0000 L CNN
-F 2 "Passive:CAPC1608X100" H 3400 6100 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 3400 6100 50  0001 C CNN
 F 3 "~" H 3400 6100 50  0001 C CNN
 F 4 "810-CGA3E1X7R1C105AC" H -1400 -1100 50  0001 C CNN "Mouser"
 	1    3400 6100
@@ -1332,9 +1333,9 @@ Wire Wire Line
 Text Notes 600  7700 0    50   ~ 0
 This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. \nTo view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/ or send\na letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 Text Notes 7100 6800 0    100  ~ 0
-GRAPHICS GREMLIN
+GRAPHICS GREMLIN (with HDMI)
 Text Notes 7100 6950 0    50   ~ 0
-DESIGN BY @TubeTimeUS
+\nDESIGN BY @TubeTimeUS\nModified by @yeokm1
 Wire Bus Line
 	7300 2450 7300 3150
 Wire Bus Line

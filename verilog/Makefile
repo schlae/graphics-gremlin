@@ -8,9 +8,10 @@
 #
 
 PROJ = isavideo
-IMAGES = mda70_top mda_top cga_top
-SOURCES = mda70_top.v mda_top.v mda.v crtc6845.v mda_vgaport.v mda_vram.v mda_attrib.v mda_sequencer.v mda_pixel.v cga_top.v cga.v cga_vgaport.v cga_sequencer.v cga_pixel.v cga_attrib.v cga_vram.v cga_composite.v cga_scandoubler.v
-PIN_DEF =  gremlin.pcf
+# Only needs mda70_top, cga70_top and cga_top. mda_top can't be used as there is no RGBI output.
+IMAGES = mda70_top cga70_top cga_top
+SOURCES = mda70_top.v mda_top.v mda.v crtc6845.v mda_vgaport.v mda_vram.v mda_attrib.v mda_sequencer.v mda_pixel.v mda_hdmiport.v cga_top.v cga.v cga_vgaport.v cga_sequencer.v cga_pixel.v cga_attrib.v cga_vram.v cga_composite.v cga_scandoubler.v cga_hdmiport.v cga70_top.v
+PIN_DEF = gremlin.pcf
 DEVICE = hx8k
 ODIR = build
 DEPS = $(addprefix $(ODIR)/,$(addsuffix .d,$(IMAGES)))

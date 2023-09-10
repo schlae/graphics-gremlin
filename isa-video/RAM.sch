@@ -1,13 +1,12 @@
 EESchema Schematic File Version 4
-LIBS:isavideo-cache
-EELAYER 29 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 4 5
+Sheet 4 6
 Title "SRAM"
-Date ""
-Rev "2"
+Date "2021-08-09"
+Rev "2.1"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -245,7 +244,7 @@ AR Path="/6043556F/614E7978" Ref="C?"  Part="1"
 AR Path="/603A03FF/614E7978" Ref="C28"  Part="1" 
 F 0 "C28" H 7292 3946 50  0000 L CNN
 F 1 "1u" H 7292 3855 50  0000 L CNN
-F 2 "Passive:CAPC1608X100" H 7200 3900 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 7200 3900 50  0001 C CNN
 F 3 "~" H 7200 3900 50  0001 C CNN
 F 4 "810-CGA3E1X7R1C105AC" H 0   0   50  0001 C CNN "Mouser"
 	1    7200 3900
@@ -260,7 +259,7 @@ AR Path="/6043556F/614E797E" Ref="C?"  Part="1"
 AR Path="/603A03FF/614E797E" Ref="C29"  Part="1" 
 F 0 "C29" H 7542 3946 50  0000 L CNN
 F 1 "1u" H 7542 3855 50  0000 L CNN
-F 2 "Passive:CAPC1608X100" H 7450 3900 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 7450 3900 50  0001 C CNN
 F 3 "~" H 7450 3900 50  0001 C CNN
 F 4 "810-CGA3E1X7R1C105AC" H 0   0   50  0001 C CNN "Mouser"
 	1    7450 3900
@@ -329,9 +328,9 @@ F 3 "" H 5000 5100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text Notes 7100 6800 0    100  ~ 0
-GRAPHICS GREMLIN
+GRAPHICS GREMLIN (with HDMI)
 Text Notes 7100 6950 0    50   ~ 0
-DESIGN BY @TubeTimeUS
+DESIGN BY @TubeTimeUS\nModified by @yeokm1
 Text Notes 550  7700 0    50   ~ 0
 This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. \nTo view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/ or send\na letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 Wire Bus Line

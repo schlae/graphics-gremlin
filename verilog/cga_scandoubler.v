@@ -10,9 +10,11 @@
 module cga_scandoubler(
     input clk,
     input line_reset,
+    input display_enable,
     input[3:0] video,
     output reg dbl_hsync,
-    output[3:0] dbl_video
+    output[3:0] dbl_video,
+    output dbl_display_enable
     );
 
     reg sclk = 1'b0;
@@ -23,11 +25,11 @@ module cga_scandoubler(
     wire[9:0] addr_a;
     wire[9:0] addr_b;
 
-    reg[3:0] data_a;
-    reg[3:0] data_b;
+    reg[4:0] data_a;
+    reg[4:0] data_b;
 
-    reg[3:0] scan_ram_a [1023:0];
-    reg[3:0] scan_ram_b [1023:0];
+    reg[4:0] scan_ram_a [1023:0];
+    reg[4:0] scan_ram_b [1023:0];
 
     reg select = 1'b0;
 
@@ -90,7 +92,11 @@ module cga_scandoubler(
     always @ (posedge clk)
     begin
         if (select) begin
-            scan_ram_a[(addr_a)] <= video;
+            scan_ram_a[(addr_a)][0] <= video[0];
+            scan_ram_a[(addr_a)][1] <= video[1];
+            scan_ram_a[(addr_a)][2] <= video[2];
+            scan_ram_a[(addr_a)][3] <= video[3];
+            scan_ram_a[(addr_a)][4] <= display_enable;
         end
         data_a <= scan_ram_a[addr_a];
     end
@@ -99,11 +105,19 @@ module cga_scandoubler(
     always @ (posedge clk)
     begin
         if (!select) begin
-            scan_ram_b[(addr_b)] <= video;
+            scan_ram_b[(addr_b)][0] <= video[0];
+            scan_ram_b[(addr_b)][1] <= video[1];
+            scan_ram_b[(addr_b)][2] <= video[2];
+            scan_ram_b[(addr_b)][3] <= video[3];
+            scan_ram_b[(addr_b)][4] <= display_enable;
         end
         data_b <= scan_ram_b[addr_b];
     end
 
-    assign dbl_video = select ? data_b : data_a;
+    assign dbl_video[0] = select ? data_b[0] : data_a[0];
+    assign dbl_video[1] = select ? data_b[1] : data_a[1];
+    assign dbl_video[2] = select ? data_b[2] : data_a[2];
+    assign dbl_video[3] = select ? data_b[3] : data_a[3];
+    assign dbl_display_enable = select ? data_b[4] : data_a[4];
 
 endmodule

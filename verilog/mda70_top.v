@@ -35,15 +35,29 @@ module mda70_top(
     inout[7:0] ram_d,
 
     // Video outputs
-    output hsync,
-    output vsync,
-    output vid_en_l,
-    output d_r,
-    output d_g,
-    output d_b,
-    output d_r2,
-    output d_g2,
-    output d_b2,
+    // output hsync,
+    // output vsync,
+    // output vid_en_l,
+    // output d_r,
+    // output d_g,
+    // output d_b,
+    // output d_r2,
+    // output d_g2,
+    // output d_b2,
+
+    output hdmi_red,
+    output hdmi_grn,
+    output hdmi_blu,
+    output hdmi_int,
+
+    output hdmi_vs,
+    output hdmi_hs,
+
+    output hdmi_clk,
+
+    output hdmi_de,
+    output hdmi_pd,
+
     output vga_hsync,
     output vga_vsync,
     output[5:0] red,
@@ -66,21 +80,23 @@ module mda70_top(
 
     wire video;
     wire intensity;
+    wire display_enable;
+    wire display_enable_mda;
 
     // Unused pins on video connector
-    assign bus_rdy = 1'b1;
-    assign bus_0ws_l = 1'b1;
-    assign vid_en_l = 1'b0;
-    assign d_r = 1'b0;
-    assign d_g = 1'b0;
-    assign d_b = 1'b0;
-    assign d_r2 = 1'b0;
+    // assign bus_rdy = 1'b1;
+    // assign bus_0ws_l = 1'b1;
+    // assign vid_en_l = 1'b0;
+    // assign d_r = 1'b0;
+    // assign d_g = 1'b0;
+    // assign d_b = 1'b0;
+    // assign d_r2 = 1'b0;
 
-    assign d_g2 = intensity;
-    assign d_b2 = video;
+    // assign d_g2 = intensity;
+    // assign d_b2 = video;
 
-    assign vga_hsync = hsync;
-    assign vga_vsync = vsync;
+    assign vga_hsync = hdmi_hs;
+    assign vga_vsync = hdmi_vs;
 
     // Set up bus direction
     assign bus_d = (bus_dir) ? bus_out : 8'hzz;
@@ -115,6 +131,22 @@ module mda70_top(
         .blue(blue)
     );
 
+    mda_hdmiport hdmi(
+        .clk(clk_main),
+        .video(video),
+        .intensity(intensity),
+        .display_enable(display_enable_mda),
+        .switch2(switch2),
+        .switch3(switch3),
+        .hdmi_red(hdmi_red),
+        .hdmi_grn(hdmi_grn),
+        .hdmi_blu(hdmi_blu),
+        .hdmi_int(hdmi_int),
+        .hdmi_clk(hdmi_clk),
+        .hdmi_de(hdmi_de),
+        .hdmi_pd(hdmi_pd)
+    );
+
     mda mda1 (
         .clk(clk_main),
         .bus_a(bus_a),
@@ -129,10 +161,12 @@ module mda70_top(
         .ram_we_l(ram_we_l),
         .ram_a(ram_a),
         .ram_d(ram_d),
-        .hsync(hsync),
-        .vsync(vsync),
+        .hsync(hdmi_hs),
+        .vsync(hdmi_vs),
         .intensity(intensity),
-        .video(video)
+        .video(video),
+        .display_enable_mda(display_enable_mda)
+
     );
 
     defparam mda1.MDA_70HZ = 1;

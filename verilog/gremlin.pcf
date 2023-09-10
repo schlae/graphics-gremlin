@@ -83,16 +83,29 @@ set_io ram_d[5]     122
 set_io ram_d[6]     120
 set_io ram_d[7]     118
 
+### HDMI outputs
+set_io hdmi_blu     48
+set_io hdmi_vs      55
+set_io hdmi_grn     56
+set_io hdmi_hs      60
+set_io hdmi_red     61
+set_io hdmi_clk     62
+set_io hdmi_de      73
+set_io hdmi_int     74
+set_io hdmi_pd      75
+
+
 ### Video outputs
-set_io hsync        60
-set_io vsync        55
-set_io d_r          61
-set_io d_g          56
-set_io d_b          48
-set_io d_r2         73
-set_io d_g2         74
-set_io d_b2         62
-set_io vid_en_l     75
+#set_io hsync        60
+#set_io vsync        55
+#set_io d_r          61
+#set_io d_g          56
+#set_io d_b          48
+#set_io d_r2         73
+#set_io d_g2         74
+#set_io d_b2         62
+#set_io vid_en_l     75
+
 set_io vga_hsync    102
 set_io vga_vsync    104
 set_io red[0]       93

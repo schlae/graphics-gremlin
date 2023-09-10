@@ -31,7 +31,8 @@ module mda(
     output hsync,
     output vsync,
     output video,
-    output intensity
+    output intensity,
+    output display_enable_mda
     );
 
     parameter MDA_70HZ = 1;
@@ -151,6 +152,7 @@ module mda(
         .hsync(hsync_int),
         .vsync(vsync_l),
         .display_enable(display_enable),
+        .display_enable_mda(display_enable_mda),
         .cursor(cursor),
         .mem_addr(crtc_addr),
         .row_addr(row_addr)

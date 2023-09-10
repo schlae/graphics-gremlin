@@ -7,7 +7,7 @@
 // Commons, PO Box 1866, Mountain View, CA 94042, USA.
 //
 `default_nettype none
-module cga_top(
+module cga70_top(
     // Clocks
     input clk_10m,
     input clk_14m318,
@@ -116,7 +116,7 @@ module cga_top(
 
     // CGA mode
     // Take our incoming 14.318MHz clock and generate the pixel clock
-    // 28.636MHz: 0, 63, 5
+    // Expected 33.408 Mhz but closest is 33.578 Mhz: 0, 33, 4
     // Could also use an SB_PLL40_2_PAD to generate an additional
     // 14.318MHz clock without having to use a separate divider.
     wire int_clk;
@@ -124,8 +124,8 @@ module cga_top(
     SB_PLL40_PAD #(
             .FEEDBACK_PATH("SIMPLE"),
             .DIVR(0),
-            .DIVF(63),
-            .DIVQ(5),
+            .DIVF(37),
+            .DIVQ(4),
             .FILTER_RANGE(1)
         ) cga_pll (
             .LOCK(pll_lock),

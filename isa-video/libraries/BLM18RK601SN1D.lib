@@ -1,0 +1,33 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#(c) SnapEDA 2016 (snapeda.com)
+#This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) with Design Exception 1.0
+#
+# BLM18RK601SN1D
+#
+DEF BLM18RK601SN1D FL 0 40 N N 1 L N
+F0 "FL" -500 200 50 H V L BNN
+F1 "BLM18RK601SN1D" -500 -200 50 H V L BNN
+F2 "BEADC1608X95N" 0 0 50 H I L BNN
+F3 "" 0 0 50 H I L BNN
+DRAW
+P 2 0 0 10 0 0 25 75 N
+P 2 0 0 10 25 75 75 -75 N
+P 2 0 0 10 75 -75 125 75 N
+P 2 0 0 10 125 75 175 -75 N
+P 2 0 0 10 175 -75 225 75 N
+P 2 0 0 10 225 75 275 -75 N
+P 2 0 0 10 275 -75 325 75 N
+P 2 0 0 10 325 75 375 -75 N
+P 2 0 0 10 375 -75 400 0 N
+A -450 0 50 -1 1800 0 0 10 N -500 0 -400 0
+A -350 0 50 -1 1800 0 0 10 N -400 0 -300 0
+A -250 0 50 -1 1800 0 0 10 N -300 0 -200 0
+A -150 0 50 -1 1800 0 0 10 N -200 0 -100 0
+P 2 0 0 10 0 0 -100 0 N
+X ~ 2 500 0 100 L 40 40 0 0 P 
+X ~ 1 -600 0 100 R 40 40 0 0 P 
+ENDDRAW
+ENDDEF
+#
+# End Library

@@ -1,8 +1,158 @@
+# Graphics Gremlin HDMI
+
+This is a modified version of the Graphics Gremlin ISA graphics card to include a HDMI port. This is still based on the same Lattice ICE40HX4K FPGA.
+
+<img src="images\gg-hdmi-board.jpg" width="600">
+
+Top view of board
+
+<img src="images\gg-hdmi-board-ports.jpg" width="800">
+
+Left is the original Graphics Gremlin, right is my modified design.
+
+Demo video: https://www.youtube.com/watch?v=xLy6on_o4YM
+
+Here is the list of changes:
+
+* Hardware changes
+    * Added HDMI port by removing the RGBI DB9 port. Port positions adjusted to ease trace routing.
+    * Added [TI TFP410](https://www.ti.com/product/TFP410) DVI transmitter (HDMI is compatible with DVI). HDMI is independent of the VGA/Composite output.
+    * Test points for inputs to DVI transmitter
+    * Replaced the 3.3VDC 1A linear regulator with 3A as TFP410 is power hungry at up to 1A.
+    * Added pin headers for power.
+    * Added LED power indicators for 5V and 3.3V.
+    * 2-layer -> 4-layer board to ease routing
+* HDL code changes
+    * Selectable MDA colours
+    * Removed normal MDA bitstream as there is no more RGBI port.
+    * Added CG 70Hz mode
+    * Modified Scandoubler code to support Display Enable signal as required by DVI chip but not VGA
+
+## Switches position
+
+### Switches 3 and 4
+
+| 3      | 4      | Description | Default  |
+|--------|--------|-------------|----------|
+| open   | open   | Bitstream 0 | MDA 70Hz |
+| open   | closed | Bitstream 1 | CGA 70Hz |
+| closed | open   | Bitstream 2 | CGA 60Hz |
+| closed | closed | Bitstream 3 | Not used |
+
+After internal scandoubling, the CGA 60Hz will produce a 640x400x60Hz output. While this works for the LCD monitors I have tested, it is technically below the DVI specification of a minimum of 640x480 at 60Hz and 25.175Mhz pixel clock. 
+
+To meet the specification in case some monitors insist, I have added another mode CGA 70Hz which will produce 640x400 at 70Hz. (Actually 71Hz due to limitations of clock multiplying) This 70Hz is however not compatible with composite displays including the one inside IBM5155.
+
+### Switches 1 and 2 for MDA
+
+| 1      | 2      | MDA colour |
+|--------|--------|------------|
+| open   | open   | Green      |
+| open   | closed | Yellow     |
+| closed | open   | White      |
+| closed | closed | Red        |
+
+<img src="images\gg-hdmi-mda-display.jpg" width="800">
+
+Sample of the different colours when testing the card on my [486 PC](https://github.com/yeokm1/retro-configs/tree/master/desktops/generic-486-pc).
+
+### Switches 1 and 2 for CGA
+
+| Switch | CGA                                  |
+|--------|--------------------------------------|
+| 1      | closed=composite mode. open=VGA mode |
+| 2      | closed=thin font. open=normal font   |
+
+No change from original Graphics Gremlin.
+
+## Updated directory structure
+
+```
+|-- fab: Gerbers, BOM and PDF schematic
+|-- images: Images used in this repo
+|-- isa-video: Kicad Design files
+|-- verilog: Updated Verilog code to support HDMI
+|-- vga_display_status: Vivado project to process ICE40 FPGA output to DVI transmiter that runs on my Mimas A7 FPGA board.
+|-- isabracket.stl: Card bracket for the original Grahpics Gremlin. (Not compatible with this new design)
+```
+
+## Verilog Toolchain
+
+To compile the project, I used the following open source tool-chain on my Ubuntu running on WSL on Windows 11.
+
+```bash
+sudo apt install libftdi-dev cmake
+
+sudo apt install build-essential libboost-system-dev libboost-thread-dev libboost-program-options-dev libboost-test-dev libboost-filesystem-dev libboost-iostreams-dev libeigen3-dev
+
+sudo apt install tclsh clang tcl-dev libreadline-dev bison flex
+
+# Icestorm
+git clone https://github.com/YosysHQ/icestorm.git icestorm
+cd icestorm
+make -j$(nproc)
+sudo make install
+cd ..
+
+# NextPNR
+git clone https://github.com/YosysHQ/nextpnr nextpnr
+cd nextpnr
+cmake -DARCH=ice40 -DCMAKE_INSTALL_PREFIX=/usr/local .
+make -j$(nproc)
+sudo make install
+cd ..
+
+# Yosys
+git clone https://github.com/YosysHQ/yosys.git yosys
+cd yosys
+make -j$(nproc)
+sudo make install
+```
+
+To program the bitstream to the board, I used `iceprog` from OSS CAD Suite. Follow the Windows instructions in the original Grahpics Gremlin readme below.
+
+## Code compilation
+
+In my Ubuntu WSL:
+
+```bash
+cd verilog
+mkdir build
+make
+```
+
+```bash
+# Program my provided bitstream
+iceprog -p isavideo.binm
+
+# Program newly compiled bitstream
+iceprog -p build/isavideo.binm
+```
+
+## Known issue with brown colour
+
+This palette value "I:0 R:1 G:1 B:0" is not handled correctly and is displayed as dark yellow instead of brown as of the CGA standard. This is due to lack of pins on FPGA to provide more than a 4-bit RGBI output to the DVI transmitter.
+
+<img src="images\gg-hdmi-cga-test.jpg" width="600">
+
+My IBM 5155 running the [CGA Compatibility Tester](https://github.com/MobyGamer/CGACompatibilityTester) displaying the colour palatte.
+
+## Testing with Mimas A7 (Xilinx Artix 7)
+
+As part of my testing, I also made a small FPGA test project using another FPGA board Mimas A7 based on the Xilinx Artix 7. 
+
+<img src="images\gg-hdmi-with-mimas-a7.jpg" width="600">
+
+The FPGA test board reads the raw RGBI, HS, VS, DE and CLK signals that are given to the DVI transmitter and displays the output using its own HDMI output.
+
+The code is heaviily based on the [HDMI_FPGA](https://github.com/dominic-meads/HDMI_FPGA/) project by Dominic Meads.
+
+
 # The Graphics Gremlin - a Retro ISA Video Card
 
 The Graphics Gremlin is an FPGA-based ISA video card specifically designed to emulate certain old video standards. This initial release emulates the original IBM PC monochrome graphics adapter (MDA) as well as the original IBM color graphics adapter (CGA). Since the logic is defined by the bitstream loaded into the FPGA, new emulations may be available in the future to support other video standards.
 
-![Graphics Gremlin PCB photo](https://github.com/schlae/graphics-gremlin/blob/main/images/gremlin.jpg)
+![Graphics Gremlin PCB photo](images/gremlin.jpg)
 
 But why emulate an old video card when they are still fairly easy to find online? Cards aren't hard to find, but monitors that can sync to the unusual frequencies used by MDA (18KHz) and CGA (15KHz) are much harder to find, and these frequencies are rarely supported by modern LCD monitors or video capture hardware.
 
@@ -86,12 +236,12 @@ The red switch bank on the top right of the card controls two things: the bitstr
 
 The bitstream is selected using switches 3 and 4:
 
-| 3      | 4      | Description  | Default |
-| ------ | ------ | ------------ | ------- |
-| open   | open   | Bitstream 0  | MDA (VGA compatible signal) |
-| open   | closed | Bitstream 1  | MDA (MDA monitors only) |
-| closed | open   | Bitstream 2  | CGA (both VGA and CGA compatible signals) |
-| closed | closed | Bitstream 3  | Not used |
+|   | 3      | 4      | Description | Default                                   |   |
+|---|--------|--------|-------------|-------------------------------------------|---|
+|   | open   | open   | Bitstream 0 | MDA (VGA compatible signal)               |   |
+|   | open   | closed | Bitstream 1 | MDA (MDA monitors only)                   |   |
+|   | closed | open   | Bitstream 2 | CGA (both VGA and CGA compatible signals) |   |
+|   | closed | closed | Bitstream 3 | Not used                                  |   |
 
 For example, if you want to use MDA with a VGA monitor, set switches 3 and 4
 to the open (up) position. (CGA has support for both VGA and CGA monitors built in since it implements a line doubler.)
