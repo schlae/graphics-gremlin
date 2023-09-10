@@ -145,8 +145,7 @@ As part of my testing, I also made a small FPGA test project using another FPGA 
 
 The FPGA test board reads the raw RGBI, HS, VS, DE and CLK signals that are given to the DVI transmitter and displays the output using its own HDMI output.
 
-The code is heaviily based on the [HDMI_FPGA](https://github.com/dominic-meads/HDMI_FPGA/) project by Dominic Meads.
-
+The code is heavily based on the [HDMI_FPGA](https://github.com/dominic-meads/HDMI_FPGA/) project by Dominic Meads and runs on Vivado 2023.
 
 # The Graphics Gremlin - a Retro ISA Video Card
 
