@@ -32,7 +32,7 @@ Here is the list of changes:
 
 ### Switches 3 and 4
 
-| 3      | 4      | Description | Default  |
+| 3      | 4      | Bitstream   | Function |
 |--------|--------|-------------|----------|
 | open   | open   | Bitstream 0 | MDA 70Hz |
 | open   | closed | Bitstream 1 | CGA 70Hz |
@@ -131,7 +131,7 @@ iceprog -p build/isavideo.binm
 
 ## Known issue with brown colour
 
-This palette value "I:0 R:1 G:1 B:0" is not handled correctly and is displayed as dark yellow instead of brown as of the CGA standard. This is due to lack of pins on FPGA to provide more than a 4-bit RGBI output to the DVI transmitter.
+This palette value "I:0 R:1 G:1 B:0" is not handled correctly and is displayed as dark yellow instead of brown as of the CGA standard. This is due to lack of pins on the FPGA to provide more than a 4-bit RGBI output to the DVI transmitter.
 
 <img src="images\gg-hdmi-cga-test.jpg" width="600">
 
