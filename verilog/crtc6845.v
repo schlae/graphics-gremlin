@@ -138,7 +138,7 @@ module crtc6845(
     reg vs = 1'b0;
     reg hs = 1'b0;
     reg hdisp = 1'b1;
-    reg hdisp_hdmi = 1'b1;
+    reg hdisp_mda = 1'b1;
     reg vdisp = 1'b1;
 
     wire cur_on;
@@ -150,7 +150,7 @@ module crtc6845(
     assign vsync = vs;
     assign hsync = hs;
     assign display_enable = hdisp & vdisp;
-    assign display_enable_mda = hdisp_hdmi & vdisp;
+    assign display_enable_mda = hdisp_mda & vdisp;
 
     assign row_addr = v_scancount;
 
@@ -169,9 +169,9 @@ module crtc6845(
             end else begin
                 h_count <= h_count + 1;
 
-                //hdisp_hdmi is used to generate another display_enable_hdmi as the existing display_enable has an issue of the screen being shifted to the right by one character
+                //hdisp_mda is used to generate another display_enable_mda as the existing display_enable on MDA has an issue of the screen being shifted to the right by one character
                 if (h_count == 0) begin
-                    hdisp_hdmi <= 1'b1;
+                    hdisp_mda <= 1'b1;
                 end
 
                 // Blanking
@@ -180,7 +180,7 @@ module crtc6845(
                 end
 
                 if (h_count == h_disp) begin
-                    hdisp_hdmi <= 1'b0;
+                    hdisp_mda <= 1'b0;
                 end
 
                 // Sync output

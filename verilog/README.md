@@ -4,7 +4,7 @@
 
 The FPGA code is divided into two major sets of files, those for CGA graphics and those for MDA graphics. At some point I'll tidy up and make a nice organized directory tree, but for now they're all in the same place.
 
-* mda\_top.v: The top level file instantiating the MDA graphics logic
+* mda\_top.v: The top level file instantiating the MDA graphics logic (Not used as no more RGBI port)
 * mda70\_top.v: An alternative top level file for VGA compatible MDA graphics
 * mda.v: Implements MDA ISA interface, IO registers and instantiates the CRTC, SRAM interface, sequencer, and pixel engine
 * crtc6845.v: This is my mostly-accurate recreation of the old Motorola 6845 CRT controller chip. It generates all the sync timings as well as the character and row addresses. There are probably slight differences between it and the real thing.
@@ -13,6 +13,7 @@ The FPGA code is divided into two major sets of files, those for CGA graphics an
 * mda\_pixel.v: This is the pixel engine. It takes data coming from the SRAM, looks up the pixels in the character ROM, and shifts the data out one pixel at a time. 
 * mda\_attrib.v: The attribute generator applies video attributes to the raw pixel data, including brightness, underline, inverse video, blinking. It also applies the blinking cursor.
 * mda\_vgaport.v: This module turns the digital MDA video signals into numbers to drive the resistor ladder DAC connected to the VGA port. If you (gasp) dislike amber monochrome monitors, then you can hack this code to make it green or white.
+* mda\_hdmiport.v: This module turns the digital MDA video signals to drive the DVI transmitter. Will also adjust the colour based on switch selection.
 
 CGA graphics logic is similar to MDA and shares the same crtc6845.v logic, but the cards are different enough that I couldn't share more.
 * cga\_top.v: Instantiates top level CGA logic.
@@ -24,6 +25,7 @@ CGA graphics logic is similar to MDA and shares the same crtc6845.v logic, but t
 * cga\_composite.v: Contains the flip flops used to generate NTSC composite color as well as new sync pulses. The output is a 7-bit signal passed off to the green DAC channel for the RCA jack on the card.
 * cga\_scandoubler.v: A very basic scan doubler to convert 15.7KHz CGA video to 31.4KHz VGA video. To save memory, this is done using 4-bit digital RGBI signals.
 * cga\_vgaport.v: This module takes RGBI digital video from the scan doubler and turns it into numbers that drive the resistor ladder DAC connected to the VGA port. It produces CGA brown instead of dark yellow.
+* cga\_hdmiport.v: This module takes RGBI digital video from the scan doubler to drive the DVI transmitter. Dark Yellow is still shown due to pin limitations.
 
 Other miscellaneous files include:
 * cga.hex and mda.hex: character ROM
