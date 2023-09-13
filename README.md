@@ -28,7 +28,7 @@ Here is the list of changes:
     * Selectable MDA colours
     * Removed normal MDA bitstream as there is no more RGBI port.
     * Added CGA 70Hz mode.
-    * Added CGA 60Hz overscan mode.
+    * Added CGA 60Hz overscan mode for demo and debug purposes.
     * Modified Scandoubler code to support Display Enable signal as required by DVI chip but not VGA.
 
 ## Switches position
