@@ -51,6 +51,10 @@ module cga(
     parameter IO_BASE_ADDR = 20'h3d0; // MDA is 3B0, CGA is 3D0
     parameter FRAMEBUFFER_ADDR = 20'hB8000; // MDA is B0000, CGA is B8000
 
+    parameter OVERSCAN = 0;
+
+    reg local_ovs = OVERSCAN;
+
     wire crtc_cs;
     wire status_cs;
     wire colorsel_cs;
@@ -76,6 +80,8 @@ module cga(
     wire cursor;
     wire[3:0] video;
     //wire display_enable;
+    wire display_enable_overscan;
+    wire display_enable_to_send_to_scan_doubler;
 
     // Two different clocks from the sequencer
     wire hclk;
@@ -240,7 +246,8 @@ module cga(
         .cursor(cursor),
         .mem_addr(crtc_addr),
         .row_addr(row_addr),
-        .line_reset(line_reset)
+        .line_reset(line_reset),
+        .display_enable_overscan(display_enable_overscan)
     );
 
     // CGA 40 column timings
@@ -371,11 +378,13 @@ module cga(
         .comp_video(comp_video)
     );
 
+    assign display_enable_to_send_to_scan_doubler = local_ovs ? display_enable_overscan : display_enable;
+
     cga_scandoubler scandoubler (
         .clk(clk),
         .line_reset(line_reset),
         .video(video),
-        .display_enable(display_enable),
+        .display_enable(display_enable_to_send_to_scan_doubler),
         .dbl_hsync(dbl_hsync),
         .dbl_video(dbl_video),
         .dbl_display_enable(dbl_display_enable)

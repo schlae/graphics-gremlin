@@ -10,38 +10,50 @@ Top view of board
 
 Left is the original Graphics Gremlin, right is my modified design.
 
-Demo video: https://www.youtube.com/watch?v=xLy6on_o4YM
+Bootup and CGA compatibliity tester: https://www.youtube.com/watch?v=xLy6on_o4YM
+8088MPH: https://www.youtube.com/watch?v=WLpNmEhdTe4
+Area5150 (using CGA overscan): https://www.youtube.com/watch?v=9wYU6qMWlpE
 
 Here is the list of changes:
 
 * Hardware changes
     * Added HDMI port by removing the RGBI DB9 port. Port positions adjusted to ease trace routing.
     * Added [TI TFP410](https://www.ti.com/product/TFP410) DVI transmitter (HDMI is compatible with DVI). HDMI is independent of the VGA/Composite output.
-    * Test points for inputs to DVI transmitter
+    * Test points for inputs to DVI transmitter.
     * Replaced the 3.3VDC 1A linear regulator with 3A as TFP410 is power hungry at up to 1A.
     * Added pin headers for power.
     * Added LED power indicators for 5V and 3.3V.
-    * 2-layer -> 4-layer board to ease routing
+    * 2-layer -> 4-layer board to ease routing.
 * HDL code changes
     * Selectable MDA colours
     * Removed normal MDA bitstream as there is no more RGBI port.
-    * Added CG 70Hz mode
-    * Modified Scandoubler code to support Display Enable signal as required by DVI chip but not VGA
+    * Added CGA 70Hz mode.
+    * Added CGA 60Hz overscan mode.
+    * Modified Scandoubler code to support Display Enable signal as required by DVI chip but not VGA.
 
 ## Switches position
 
 ### Switches 3 and 4
 
-| 3      | 4      | Bitstream   | Function |
-|--------|--------|-------------|----------|
-| open   | open   | Bitstream 0 | MDA 70Hz |
-| open   | closed | Bitstream 1 | CGA 70Hz |
-| closed | open   | Bitstream 2 | CGA 60Hz |
-| closed | closed | Bitstream 3 | Not used |
+| 3      | 4      | Bitstream   | Function               |
+|--------|--------|-------------|------------------------|
+| open   | open   | Bitstream 0 | MDA 70Hz               |
+| open   | closed | Bitstream 1 | CGA 70Hz               |
+| closed | open   | Bitstream 2 | CGA 60Hz               |
+| closed | closed | Bitstream 3 | CGA 60Hz with overscan |
 
-After internal scandoubling, the CGA 60Hz will produce a 640x400x60Hz output. While this works for the LCD monitors I have tested, it is technically below the DVI specification of a minimum of 640x480 at 60Hz and 25.175Mhz pixel clock. 
+#### CGA 60 and 70Hz 
+After internal scandoubling, the CGA 60Hz will produce a 640x400x60Hz output suitable for most VGA monitors. While this works for the HDMI LCD monitors I have tested, it is technically below the DVI specification of a minimum of 640x480x60Hz and 25.175Mhz pixel clock. 
 
-To meet the specification in case some monitors insist, I have added another mode CGA 70Hz which will produce 640x400 at 70Hz. (Actually 71Hz due to limitations of clock multiplying) This 70Hz is however not compatible with composite displays including the one inside IBM5155.
+To meet the specification in case some monitors insist, I have added another mode CGA 70Hz which will produce 640x400 at 70Hz. (Actually 71Hz due to precision limitations of clock multiplying) This 70Hz is however not compatible with composite displays including the one inside IBM5155.
+
+#### CGA 60Hz with overscan
+
+The CGA overscan bitstream will show the overscan sections beyond the usual display area just short of Hsync and Vsync. Overscan is used in some demos like Area 5150. However not all HDMI monitors can accept this signal and/or display this properly.
+
+I notice that while a monitor may initially accept this mode, tendency is it will randomly throw you display errors later.
+
+**The purpose of this mode is just for debug and demo purposes**.
 
 ### Switches 1 and 2 for MDA
 

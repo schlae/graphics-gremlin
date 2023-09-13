@@ -196,6 +196,9 @@ module cga_top(
         .display_enable(display_enable),
         .dbl_display_enable(dbl_display_enable)
     );
+
+    defparam cga1.OVERSCAN = 0;
+
 `ifdef SYNTHESIS
     defparam cga1.BLINK_MAX = 24'd4772727;
 `else

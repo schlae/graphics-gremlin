@@ -16,7 +16,9 @@ The FPGA code is divided into two major sets of files, those for CGA graphics an
 * mda\_hdmiport.v: This module turns the digital MDA video signals to drive the DVI transmitter. Will also adjust the colour based on switch selection.
 
 CGA graphics logic is similar to MDA and shares the same crtc6845.v logic, but the cards are different enough that I couldn't share more.
-* cga\_top.v: Instantiates top level CGA logic.
+* cga\_top.v: Instantiates top level CGA logic with 60 Hz refresh rate.
+* cga70\_top.v: Instantiates top level CGA logic with 70Hz refresh rate if higher pixel clock is required. (Composite displays are unlikely to work in this mode)
+* cga\_overscan_\_top.v: Instantiates top level CGA logic with 60Hz refresh rate and show overscan area. (Not all HDMI monitors can accept this)
 * cga.v: Implements the ISA bus interface, CGA control registers, wait state generator, and most of the other CGA modules
 * cga\_sequencer.v: Generates most of the timing signals used on the card, including memory fetches and pixel engine timing.
 * cga\_vram.v: Implements a very basic address MUX for the SRAM interface. This actually causes too much CGA snow, and should be improved using the MDA VRAM interface as a model.

@@ -26,6 +26,7 @@ module crtc6845(
     output vsync,
     output display_enable,
     output display_enable_mda,
+    output display_enable_overscan,
     output cursor,
     output [13:0] mem_addr,
     output [4:0] row_addr,
@@ -141,6 +142,9 @@ module crtc6845(
     reg hdisp_mda = 1'b1;
     reg vdisp = 1'b1;
 
+    reg hdisp_overscan = 1'b1;
+    reg vdisp_overscan = 1'b1;
+
     wire cur_on;
     wire blink;
 
@@ -151,6 +155,7 @@ module crtc6845(
     assign hsync = hs;
     assign display_enable = hdisp & vdisp;
     assign display_enable_mda = hdisp_mda & vdisp;
+    assign display_enable_overscan = hdisp_overscan & vdisp_overscan;
 
     assign row_addr = v_scancount;
 
@@ -166,6 +171,7 @@ module crtc6845(
             if (h_count == h_total) begin
                 h_count <= 8'd0;
                 hdisp <= 1'b1;
+                hdisp_overscan <= 1'b1;
             end else begin
                 h_count <= h_count + 1;
 
@@ -181,6 +187,11 @@ module crtc6845(
 
                 if (h_count == h_disp) begin
                     hdisp_mda <= 1'b0;
+                end
+
+                // Overscan DE up to just before Hsync
+                if (h_count + 2 == h_syncpos) begin
+                    hdisp_overscan <= 1'b0;
                 end
 
                 // Sync output
@@ -222,6 +233,11 @@ module crtc6845(
                         vs <= 1'b1;
                     end
 
+                    // Overscan DE up to just before Vsync
+                    if (v_rowcount + 3 == v_syncpos) begin
+                        vdisp_overscan <= 1'b0;
+                    end
+
                     // Handle blanking
                     if (v_rowcount + 1 == v_disp) begin
                         vdisp <= 1'b0;
@@ -235,6 +251,7 @@ module crtc6845(
                     v_scancount <= 0;
                     v_rowcount <= 0;
                     vdisp <= 1'b1;
+                    vdisp_overscan <= 1'b1;
                     cursor_counter <= cursor_counter + 1;
                 end
             end
