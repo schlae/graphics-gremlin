@@ -17,7 +17,7 @@ Left is the original Graphics Gremlin, right is my modified design.
 Here is the list of changes:
 
 * Hardware changes
-    * Added HDMI port by removing the RGBI DB9 port. Port positions adjusted to ease trace routing.
+    * Added HDMI port by removing the RGBI DE9 port. Port positions adjusted to ease trace routing.
     * Added [TI TFP410](https://www.ti.com/product/TFP410) DVI transmitter (HDMI is compatible with DVI). HDMI is independent of the VGA/Composite output.
     * Test points for inputs to DVI transmitter.
     * Replaced the 3.3VDC 1A linear regulator with 3A as TFP410 is power hungry at up to 1A.
@@ -25,7 +25,7 @@ Here is the list of changes:
     * Added LED power indicators for 5V and 3.3V.
     * 2-layer -> 4-layer board to ease routing.
 * HDL code changes
-    * Selectable MDA colours
+    * Selectable MDA colours (HDMI only)
     * Removed normal MDA bitstream as there is no more RGBI port.
     * Added CGA 70Hz mode.
     * Added CGA 60Hz overscan mode for demo and debug purposes.
@@ -56,6 +56,8 @@ I notice that while a monitor may initially accept this mode, tendency is it wil
 **The purpose of this mode is just for debug and demo purposes**.
 
 ### Switches 1 and 2 for MDA
+
+These colours are applicable for the HDMI section only. 
 
 | 1      | 2      | MDA colour |
 |--------|--------|------------|
