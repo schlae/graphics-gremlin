@@ -1,5 +1,6 @@
 (sym_lib_table
-  (lib (name isavideo-rescue)(type Legacy)(uri ${KIPRJMOD}/isavideo-rescue.lib)(options "")(descr ""))
-  (lib (name BLM18RK601SN1D)(type Legacy)(uri ${KIPRJMOD}/libraries/BLM18RK601SN1D.lib)(options "")(descr ""))
-  (lib (name PJRAN1X1U04X)(type Legacy)(uri ${KIPRJMOD}/libraries/PJRAN1X1U04X.lib)(options "")(descr ""))
+  (version 7)
+  (lib (name "isavideo-rescue")(type "KiCad")(uri "${KIPRJMOD}/isavideo-rescue.kicad_sym")(options "")(descr ""))
+  (lib (name "BLM18RK601SN1D")(type "Legacy")(uri "${KIPRJMOD}/libraries/BLM18RK601SN1D.lib")(options "")(descr ""))
+  (lib (name "PJRAN1X1U04X")(type "Legacy")(uri "${KIPRJMOD}/libraries/PJRAN1X1U04X.lib")(options "")(descr ""))
 )
