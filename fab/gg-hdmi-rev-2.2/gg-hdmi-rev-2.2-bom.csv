@@ -1,4 +1,4 @@
-Item,Qty,Reference(s),Value,Footprint,Mouser
+Item,Qty,Designator,Comment,Footprint,Mouser
 1,23,"C1, C7, C8, C9, C10, C11, C13, C14, C15, C16, C17, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29, C30, C31",1u,Capacitor_SMD:C_0603_1608Metric,810-CGA3E1X7R1C105AC
 2,2,"C2, C4",10uF 16V,Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,81-ZRB18AR61C106ME1L
 3,6,"C3, C5, C6, C12, C18, C19",4.7u,Capacitor_SMD:C_0603_1608Metric,187-CL10A475KP8NNNC
