@@ -2322,7 +2322,7 @@
     (property "Value" "TFP410PAP" (at 251.46 33.02 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_QFP:HTQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm_Mask4.4x4.4mm_ThermalVias" (at 241.3 151.13 0)
+    (property "Footprint" "libraries:TFP410_ThermalVias" (at 241.3 151.13 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "http://www.ti.com/lit/ds/symlink/tfp410.pdf" (at 241.3 149.86 0)
