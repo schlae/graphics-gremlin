@@ -1,6 +1,6 @@
 # Graphics Gremlin HDMI
 
-(Due to the attention on this project specifically on the flaw of displaying dark yellow, instead of brown, I'm making a PCB respin and Verilog code correction for this. You can follow the progress in this [issue](https://github.com/yeokm1/graphics-gremlin-hdmi/issues/1)).
+(Due to the attention on this project specifically on the flaw of displaying dark yellow, instead of brown, I'm **making a PCB respin and Verilog code correction** for this. You can follow the progress in this [issue](https://github.com/yeokm1/graphics-gremlin-hdmi/issues/1)).
 
 This is a modified version of the Graphics Gremlin ISA graphics card to include a HDMI port. This is still based on the same Lattice ICE40HX4K FPGA.
 
