@@ -251,12 +251,12 @@ The red switch bank on the top right of the card controls two things: the bitstr
 
 The bitstream is selected using switches 3 and 4:
 
-|   | 3      | 4      | Description | Default                                   |   |
-|---|--------|--------|-------------|-------------------------------------------|---|
-|   | open   | open   | Bitstream 0 | MDA (VGA compatible signal)               |   |
-|   | open   | closed | Bitstream 1 | MDA (MDA monitors only)                   |   |
-|   | closed | open   | Bitstream 2 | CGA (both VGA and CGA compatible signals) |   |
-|   | closed | closed | Bitstream 3 | Not used                                  |   |
+| 3      | 4      | Description | Default                                   |
+|--------|--------|-------------|-------------------------------------------|
+| open   | open   | Bitstream 0 | MDA (VGA compatible signal)               |
+| open   | closed | Bitstream 1 | MDA (MDA monitors only)                   |
+| closed | open   | Bitstream 2 | CGA (both VGA and CGA compatible signals) |
+| closed | closed | Bitstream 3 | Not used                                  |
 
 For example, if you want to use MDA with a VGA monitor, set switches 3 and 4
 to the open (up) position. (CGA has support for both VGA and CGA monitors built in since it implements a line doubler.)
