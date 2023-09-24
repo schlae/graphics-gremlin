@@ -10,6 +10,7 @@ module cga_hdmiport(
     output hdmi_grn,
     output hdmi_blu,
     output hdmi_int,
+    output hdmi_grn_int,
 
     output hdmi_vs,
     output hdmi_hs,
@@ -17,12 +18,10 @@ module cga_hdmiport(
     output hdmi_clk,
 
     output hdmi_de,
-    output hdmi_pd
 
     );
 
     assign hdmi_clk = clk;
-    assign hdmi_pd = 1;
 
     assign hdmi_de = display_enable;
 
@@ -33,5 +32,6 @@ module cga_hdmiport(
     assign hdmi_grn = video[1];
     assign hdmi_blu = video[0];
     assign hdmi_int = video[3];
+    assign hdmi_grn_int = video[3];
     
 endmodule

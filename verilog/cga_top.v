@@ -38,6 +38,7 @@ module cga_top(
     output hdmi_grn,
     output hdmi_blu,
     output hdmi_int,
+    output hdmi_grn_int,
 
     output hdmi_vs,
     output hdmi_hs,
@@ -45,7 +46,6 @@ module cga_top(
     output hdmi_clk,
 
     output hdmi_de,
-    output hdmi_pd,
 
 
     // Video outputs
@@ -156,12 +156,12 @@ module cga_top(
         .hdmi_red(hdmi_red),
         .hdmi_grn(hdmi_grn),
         .hdmi_blu(hdmi_blu),
+        .hdmi_grn_int(hdmi_grn_int),
         .hdmi_int(hdmi_int),
         .hdmi_hs(hdmi_hs),
         .hdmi_vs(hdmi_vs),
         .hdmi_clk(hdmi_clk),
         .hdmi_de(hdmi_de),
-        .hdmi_pd(hdmi_pd)
     );
 
     // Analog output mux: Either RGB or composite

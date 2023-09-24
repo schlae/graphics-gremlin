@@ -49,6 +49,7 @@ module mda70_top(
     output hdmi_grn,
     output hdmi_blu,
     output hdmi_int,
+    output hdmi_grn_int,
 
     output hdmi_vs,
     output hdmi_hs,
@@ -56,7 +57,6 @@ module mda70_top(
     output hdmi_clk,
 
     output hdmi_de,
-    output hdmi_pd,
 
     output vga_hsync,
     output vga_vsync,
@@ -142,9 +142,9 @@ module mda70_top(
         .hdmi_grn(hdmi_grn),
         .hdmi_blu(hdmi_blu),
         .hdmi_int(hdmi_int),
+        .hdmi_grn_int(hdmi_grn_int),
         .hdmi_clk(hdmi_clk),
         .hdmi_de(hdmi_de),
-        .hdmi_pd(hdmi_pd)
     );
 
     mda mda1 (

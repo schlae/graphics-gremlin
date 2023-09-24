@@ -92,7 +92,7 @@ set_io hdmi_red     61
 set_io hdmi_clk     62
 set_io hdmi_de      73
 set_io hdmi_int     74
-set_io hdmi_pd      75
+set_io hdmi_grn_int 75
 
 
 ### Video outputs

@@ -14,6 +14,7 @@ module mda_hdmiport(
     output hdmi_grn,
     output hdmi_blu,
     output hdmi_int,
+    output hdmi_grn_int,
 
     output hdmi_vs,
     output hdmi_hs,
@@ -21,14 +22,12 @@ module mda_hdmiport(
     output hdmi_clk,
 
     output hdmi_de,
-    output hdmi_pd,
 
     );
 
-
-    assign hdmi_pd = 1;
     assign hdmi_de = display_enable;
     assign hdmi_int = intensity;
+    assign hdmi_grn_int = intensity;
 
     assign hdmi_vs = vsync;
     assign hdmi_hs = hsync;
