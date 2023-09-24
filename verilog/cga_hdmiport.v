@@ -29,9 +29,10 @@ module cga_hdmiport(
     assign hdmi_hs = hsync;
 
     assign hdmi_red = video[2];
-    assign hdmi_grn = video[1];
     assign hdmi_blu = video[0];
     assign hdmi_int = video[3];
-    assign hdmi_grn_int = video[3];
+
+    assign hdmi_grn = video[1] ^ (hdmi_red & video[1] & (hdmi_blu ^ 1) & (hdmi_int ^ 1));
+    assign hdmi_grn_int = hdmi_int ^ (hdmi_red & video[1] & (hdmi_blu ^ 1) & (hdmi_int ^ 1));
     
 endmodule
