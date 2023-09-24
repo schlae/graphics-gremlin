@@ -155,7 +155,7 @@ assign hdmi_grn = video[1] ^ (hdmi_red & video[1] & (hdmi_blu ^ 1) & (hdmi_int ^
 assign hdmi_grn_int = hdmi_int ^ (hdmi_red & video[1] & (hdmi_blu ^ 1) & (hdmi_int ^ 1));
 ```
 
-This is done using the above boolean logic to lower the green value by using the dedicated hdmi_green_int pin.
+This is done using the above boolean logic to lower the green value by using the dedicated hdmi_green_int pin. This logic is [provided by @spbnick](https://github.com/yeokm1/yeokm1.github.io/discussions/115#discussioncomment-7022872).
 
 <img src="images\gg-hdmi-cga-test.jpg" width="600">
 
