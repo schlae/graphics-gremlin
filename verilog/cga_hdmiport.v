@@ -32,6 +32,7 @@ module cga_hdmiport(
     assign hdmi_blu = video[0];
     assign hdmi_int = video[3];
 
+    // To generate brown value
     assign hdmi_grn = video[1] ^ (hdmi_red & video[1] & (hdmi_blu ^ 1) & (hdmi_int ^ 1));
     assign hdmi_grn_int = hdmi_int ^ (hdmi_red & video[1] & (hdmi_blu ^ 1) & (hdmi_int ^ 1));
     

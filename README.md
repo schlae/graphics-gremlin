@@ -145,9 +145,17 @@ iceprog -p isavideo.binm
 iceprog -p build/isavideo.binm
 ```
 
-## Known issue with brown colour
+## Special handling for brown colour
 
-This palette value "I:0 R:1 G:1 B:0" is not handled correctly and is displayed as dark yellow instead of brown as of the CGA standard. This is due to lack of pins on the FPGA to provide more than a 4-bit RGBI output to the DVI transmitter.
+The PCB and code now treats the palette value "I:0 R:1 G:1 B:0" specially to produce a brown instead of dark yellow as per the CGA standard.
+
+```verilog
+// video[1] is the original green value
+assign hdmi_grn = video[1] ^ (hdmi_red & video[1] & (hdmi_blu ^ 1) & (hdmi_int ^ 1));
+assign hdmi_grn_int = hdmi_int ^ (hdmi_red & video[1] & (hdmi_blu ^ 1) & (hdmi_int ^ 1));
+```
+
+This is done using the above boolean logic to lower the green value by using the dedicated hdmi_green_int pin.
 
 <img src="images\gg-hdmi-cga-test.jpg" width="600">
 
