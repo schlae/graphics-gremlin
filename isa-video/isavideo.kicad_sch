@@ -6,8 +6,8 @@
 
   (title_block
     (title "Top Level")
-    (date "2023-09-17")
-    (rev "2.2")
+    (date "2023-10-13")
+    (rev "2.3")
   )
 
   (lib_symbols
@@ -7624,7 +7624,7 @@
     (property "Value" "DB15_Female_HighDensity_MountingHoles" (at 261.62 17.1196 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Connector_Dsub:DSUB-15-HD_Female_Horizontal_P2.29x1.98mm_EdgePinOffset8.35mm_Housed_MountingHolesOffset10.89mm" (at 237.49 26.67 0)
+    (property "Footprint" "libraries:23117631" (at 237.49 26.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" " ~" (at 237.49 26.67 0)
