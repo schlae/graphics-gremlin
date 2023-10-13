@@ -12,7 +12,8 @@ Top view of board
 
 Left is the original Graphics Gremlin, right is my modified design.
 
-* Bootup and CGA compatibliity tester: https://www.youtube.com/watch?v=xLy6on_o4YM
+* Bootup and CGA compatibility tester (Brown fixed): https://www.youtube.com/watch?v=Ap-goSkkSUI
+* Bootup and CGA compatibility tester (Deprecated): https://www.youtube.com/watch?v=xLy6on_o4YM
 * 8088MPH: https://www.youtube.com/watch?v=WLpNmEhdTe4
 * Area5150 (using CGA overscan): https://www.youtube.com/watch?v=9wYU6qMWlpE
 
@@ -147,7 +148,7 @@ iceprog -p build/isavideo.binm
 
 ## Special handling for brown colour
 
-The PCB and code now treats the palette value "I:0 R:1 G:1 B:0" specially to produce a brown instead of dark yellow as per the CGA standard.
+The PCB and code treats the palette value "I:0 R:1 G:1 B:0" specially to produce a brown instead of dark yellow as per the CGA standard.
 
 ```verilog
 // video[1] is the original green value
@@ -173,9 +174,9 @@ The code is heavily based on the [HDMI_FPGA](https://github.com/dominic-meads/HD
 
 ## Releases
 
-* 2.1: Initial release for GG (HDMI)
-* 2.2: Extra Green control line for TFP410
-* 2.3: Corrected VGA footprint
+* 2.1 (9 Aug 2021): Initial release for GG (HDMI)
+* 2.2 (17 Sept 2023): Extra Green control line for TFP410
+* 2.3 (13 Oct 2023): Corrected VGA port footprint bug
 
 # The Graphics Gremlin - a Retro ISA Video Card
 
