@@ -171,6 +171,12 @@ The FPGA test board reads the raw RGBI, HS, VS, DE and CLK signals that are give
 
 The code is heavily based on the [HDMI_FPGA](https://github.com/dominic-meads/HDMI_FPGA/) project by Dominic Meads and runs on Vivado 2023.
 
+## Releases
+
+* 2.1: Initial release for GG (HDMI)
+* 2.2: Extra Green control line for TFP410
+* 2.3: Corrected VGA footprint
+
 # The Graphics Gremlin - a Retro ISA Video Card
 
 The Graphics Gremlin is an FPGA-based ISA video card specifically designed to emulate certain old video standards. This initial release emulates the original IBM PC monochrome graphics adapter (MDA) as well as the original IBM color graphics adapter (CGA). Since the logic is defined by the bitstream loaded into the FPGA, new emulations may be available in the future to support other video standards.
